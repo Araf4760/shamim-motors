@@ -335,5 +335,18 @@
       }
     }
   </script>
+  <script>
+  // ... অন্যান্য সব function এর নিচে এটুকু যোগ করুন:
+  function print() {
+    const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+    if (entries.length === 0) {
+      alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
+      return;
+    }
+    const lastEntry = entries[entries.length - 1];
+    const query = encodeURIComponent(JSON.stringify(lastEntry));
+    window.open("print-form.html?data=" + query, "_blank");
+  }
+</script>
 </body>
 </html>
