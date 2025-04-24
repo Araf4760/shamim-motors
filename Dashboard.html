@@ -1,59 +1,62 @@
-<!-- entry.html -->
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Entry Form</title>
+  <title>Dashboard - Shamim Motors</title>
   <style>
     body {
       background-color: #1c1c44;
-      font-family: sans-serif;
+      font-family: 'Siyam Rupali', sans-serif;
+      margin: 0;
+      padding: 0;
       color: white;
-      text-align: center;
-      padding-top: 50px;
     }
     .container {
-      width: 350px;
-      margin: auto;
-      background: #1c1c44;
-      padding: 20px;
-      border-radius: 15px;
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 40px;
+      background-color: #121235;
+      border-radius: 20px;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      text-align: center;
     }
-    h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      font-family: "Siyam Rupali", sans-serif;
-    }
-    .db-title {
-      background-color: darkgreen;
-      color: gold;
-      padding: 8px;
-      border-radius: 6px;
-      font-size: 20px;
+    h1 {
+      font-size: 30px;
       margin-bottom: 20px;
     }
-    button {
-      padding: 10px 20px;
-      margin: 5px;
-      background: white;
-      color: green;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
+    .title {
+      font-size: 20px;
+      background-color: darkgreen;
+      color: gold;
+      display: inline-block;
+      padding: 10px 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
     }
-    button:hover {
-      background-color: #cceccc;
+    .btn {
+      background-color: white;
+      color: darkgreen;
+      border: none;
+      padding: 12px 25px;
+      margin: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background-color: #d3ffe6;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>মেসার্স শামীম মটরস</h2>
-    <div class="db-title">DataBase Form</div>
-    <button onclick="alert('Entry form under development')">Entry Form</button>
-    <button onclick="alert('Sell form under development')">Sell Form</button>
+    <h1>মেসার্স শামীম মটরস</h1>
+    <div class="title">DataBase Form</div><br><br>
+    
+    <button class="btn" onclick="location.href='entry.html'">Entry Form</button>
+    <button class="btn" onclick="location.href='sell.html'">Sell Form</button>
   </div>
 </body>
 </html>
