@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>প্রিন্ট ফর্ম - মেসার্স শামীম মোটরস</title>
+  <style>
+    body {
+      font-family: 'Siyam Rupali', sans-serif;
+      padding: 20px;
+      background: #fff;
+      color: #000;
+    }
+    .print-container {
+      max-width: 900px;
+      margin: auto;
+      border: 1px solid #333;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      border-bottom: 2px solid black;
+      padding-bottom: 10px;
+    }
+    .header h1 {
+      font-size: 32px;
+      margin: 0;
+    }
+    .header h2 {
+      font-size: 20px;
+      margin: 5px 0;
+    }
+    .subtext {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 8px 12px;
+      font-size: 16px;
+      vertical-align: top;
+    }
+    .gray-bg {
+      background: #ddd;
+      width: 130px;
+    }
+    .note {
+      font-size: 13px;
+      margin-top: 10px;
+      border-top: 1px dashed black;
+      padding-top: 5px;
+    }
+    .signature-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      font-size: 16px;
+    }
+    .signature {
+      border-top: 1px solid black;
+      width: 200px;
+      text-align: center;
+    }
+    .red-box {
+      font-size: 15px;
+      text-align: center;
+      line-height: 1.6;
+      padding: 10px;
+    }
+    .wide-cell {
+      height: 35px;
+    }
+  </style>
+</head>
+<body>
+  <div class="print-container">
+    <div class="header">
+      <div style="font-size:14px">কালেকশো</div>
+      <h1>মেসার্স শামীম মোটরস</h1>
+      <h2>প্রোঃ শামীম আহমেদ</h2>
+      <div class="subtext">
+        এখানে সকল প্রকার মোটরস বাইক সুলভমূল্যে বিক্রয় করা হয়<br>
+        বিঃ দ্রঃ কিস্তির পূরোনো ধারা স্টকে পাওয়া যায় এবং স্টকে সাইকেল এক্সচেঞ্জ করার ব্যবস্থা রয়েছে<br>
+        মোবাঃ ০১৭৪-৭৫৬২২৪৮, বিকাশঃ ০১৯৪৯-০৩৬৫৭৬
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <th class="gray-bg">ক্রমিকঃ</th>
+        <td class="wide-cell"></td>
+        <th class="gray-bg">তারিখঃ</th>
+        <td class="wide-cell"></td>
+      </tr>
+      <tr>
+        <th class="gray-bg">নামঃ</th>
+        <td colspan="3" class="wide-cell"></td>
+      </tr>
+      <tr>
+        <th class="gray-bg">পিতার নামঃ</th>
+        <td class="wide-cell"></td>
+        <th class="gray-bg">মোবাইল নংঃ</th>
+        <td class="wide-cell"></td>
+      </tr>
+      <tr>
+        <th class="gray-bg">জন্ম তারিখঃ</th>
+        <td class="wide-cell"></td>
+      </tr>
+      <tr>
+        <th class="gray-bg">ঠিকানাঃ</th>
+        <td colspan="3" class="wide-cell"></td>
+      </tr>
+    </table>
+
+    <table style="margin-top: 20px;">
+      <tr>
+        <th class="gray-bg" style="width: 50%;">বিবরণ</th>
+        <th class="gray-bg" style="width: 20%;">পরিমাণ</th>
+        <th class="gray-bg" style="width: 30%;">টাকা</th>
+      </tr>
+      <tr>
+        <td>
+          যানবাহনের ধরন:<br>
+          ইঞ্জিন নং:<br>
+          চেসিস নং:<br>
+          মডেল নং:<br>
+          সিসি:<br>
+          কালার:
+        </td>
+        <td></td>
+        <td>
+          <div class="red-box" id="paymentBox">
+            এখানে নগদ এমাউন্ট বসবে<br>
+            যদি "মোট টাকা" এবং "নগদ টাকা" সমান হয় তাহলে বড় করে <b>"পরিশোধিত"</b> লেখা বসবে
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th class="gray-bg">মোট টাকা:</th>
+        <td colspan="2" id="totalCell"></td>
+      </tr>
+      <tr>
+        <th class="gray-bg">নগদ টাকা:</th>
+        <td colspan="2" id="cashCell"></td>
+      </tr>
+      <tr>
+        <th class="gray-bg">বাকি টাকা:</th>
+        <td colspan="2" id="dueCell"></td>
+      </tr>
+    </table>
+
+    <div class="note">
+      সকল কাগজপত্র বুঝিয়ে দেওয়া হইলো।<br>
+      দ্রষ্টব্যঃ সরবরাহকৃত মাল কোন অবস্থায় পরিবর্তন অথবা ফেরত নেওয়া হয় না।
+    </div>
+
+    <div class="signature-section">
+      <div class="signature">ক্রেতার স্বাক্ষর</div>
+      <div class="signature">বিক্রেতার স্বাক্ষর</div>
+    </div>
+  </div>
+<script>
+  // এই স্ক্রিপ্ট আপনি entry form থেকে ডেটা পাঠানোর পর কল করতে পারেন
+  // উদাহরণ হিসেবে নিচে কিছু ডেমো ভ্যালু বসানো হয়েছে
+
+  const totalAmount = 500;
+  const cashAmount = 500;
+  const paymentBox = document.getElementById("paymentBox");
+  const totalCell = document.getElementById("totalCell");
+  const cashCell = document.getElementById("cashCell");
+  const dueCell = document.getElementById("dueCell");
+
+  // টাকার ঘরে ভ্যালু বসানো
+  totalCell.textContent = totalAmount + " টাকা";
+  cashCell.textContent = cashAmount + " টাকা";
+  dueCell.textContent = (totalAmount - cashAmount) + " টাকা";
+
+  // পরিশোধিত শর্ত
+  if (totalAmount === cashAmount) {
+    paymentBox.innerHTML = '<div style="font-size: 24px; font-weight: bold;">পরিশোধিত</div>';
+  } else {
+    paymentBox.innerHTML = `
+      ${cashAmount} টাকা<br>
+      (এখানে নগদ এমাউন্ট বসবে)<br>
+      যদি \"মোট টাকা\" এবং \"নগদ টাকা\" সমান হয় তাহলে বড় করে <b>\"পরিশোধিত\"</b> লেখা বসবে
+    `;
+  }
+
+  function loadPrintData(data) {
+    document.querySelectorAll('td').forEach(td => td.textContent = ''); // Clear all existing cells
+    const tdMap = {
+      serial: 0,
+      date: 1,
+      name: 2,
+      father: 3,
+      mobile: 4,
+      dob: 5,
+      address: 6
+    };
+    const tableCells = document.querySelectorAll("table:first-of-type td");
+    tableCells[tdMap.serial].textContent = data.serial || "";
+    tableCells[tdMap.date].textContent = data.date || "";
+    tableCells[tdMap.name].textContent = data.name || "";
+    tableCells[tdMap.father].textContent = data.father || "";
+    tableCells[tdMap.mobile].textContent = data.mobile || "";
+    tableCells[tdMap.dob].textContent = data.dob || "";
+    tableCells[tdMap.address].textContent = data.address || "";
+
+    const vehicleInfo = [
+      data.vehicle_type, data.engine, data.chassis, data.model, data.cc, data.color
+    ].map(line => line || "").join('<br>');
+    document.querySelectorAll("table")[1].rows[1].cells[0].innerHTML = vehicleInfo;
+
+    totalCell.textContent = data.total + " টাকা";
+    cashCell.textContent = data.cash + " টাকা";
+    dueCell.textContent = (parseFloat(data.total) - parseFloat(data.cash)) + " টাকা";
+
+    if (parseFloat(data.total) === parseFloat(data.cash)) {
+      paymentBox.innerHTML = '<div style="font-size: 24px; font-weight: bold;">পরিশোধিত</div>';
+    } else {
+      paymentBox.innerHTML = `${data.cash} টাকা<br>(এখানে নগদ এমাউন্ট বসবে)<br>যদি \"মোট টাকা\" এবং \"নগদ টাকা\" সমান হয় তাহলে বড় করে <b>\"পরিশোধিত\"</b> লেখা বসবে`;
+    }
+  }
+
+  // For demo purpose: pulling from localStorage last entry
+  const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+  if (entries.length > 0) {
+    loadPrintData(entries[entries.length - 1]);
+  }
+
+    function print() {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (entries.length === 0) {
+        alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
+        return;
+      }
+      const lastEntry = entries[entries.length - 1];
+      const query = encodeURIComponent(JSON.stringify(lastEntry));
+      const win = window.open("print-form.html?data=" + query, "_blank");
+    }
+  
+    function print() {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (entries.length === 0) {
+        alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
+        return;
+      }
+      const lastEntry = entries[entries.length - 1];
+      const query = encodeURIComponent(JSON.stringify(lastEntry));
+      window.open("print-form.html?data=" + query, "_blank");
+    }
+  
+  function loadPrintData(data) {
+    const tableCells = document.querySelectorAll("table:first-of-type td");
+    tableCells[0].textContent = data.serial || "";
+    tableCells[1].textContent = data.date || "";
+    tableCells[2].textContent = data.name || "";
+    tableCells[3].textContent = data.father || "";
+    tableCells[4].textContent = data.mobile || "";
+    tableCells[5].textContent = data.dob || "";
+    tableCells[6].textContent = data.address || "";
+
+    const vehicleInfo = [
+      data.vehicle_type, data.engine, data.chassis, data.model, data.cc, data.color
+    ].map(line => line || "").join('<br>');
+    document.querySelectorAll("table")[1].rows[1].cells[0].innerHTML = vehicleInfo;
+
+    document.getElementById("totalCell").textContent = data.total + " টাকা";
+    document.getElementById("cashCell").textContent = data.cash + " টাকা";
+    document.getElementById("dueCell").textContent = (parseFloat(data.total) - parseFloat(data.cash)) + " টাকা";
+
+    const paymentBox = document.getElementById("paymentBox");
+    if (parseFloat(data.total) === parseFloat(data.cash)) {
+      paymentBox.innerHTML = '<div style="font-size: 24px; font-weight: bold;">পরিশোধিত</div>';
+    } else {
+      paymentBox.innerHTML = `${data.cash} টাকা<br>(এখানে নগদ এমাউন্ট বসবে)<br>যদি \"মোট টাকা\" এবং \"নগদ টাকা\" সমান হয় তাহলে বড় করে <b>\"পরিশোধিত\"</b> লেখা বসবে`;
+    }
+  }
+
+  // Query string থেকে ডেটা রিড করে বসানো
+  const urlParams = new URLSearchParams(window.location.search);
+  const dataParam = urlParams.get("data");
+  if (dataParam) {
+    try {
+      const formData = JSON.parse(decodeURIComponent(dataParam));
+      loadPrintData(formData);
+    } catch (e) {
+      console.error("Invalid data format:", e);
+    }
+  }
+
+    function print() {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (entries.length === 0) {
+        alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
+        return;
+      }
+      const lastEntry = entries[entries.length - 1];
+      const query = encodeURIComponent(JSON.stringify(lastEntry));
+      window.open("print-form.html?data=" + query, "_blank");
+    }
+  </script>
+<button onclick="window.print()" style="position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#22225c;color:white;border:none;border-radius:6px;cursor:pointer;">প্রিন্ট করুন</button>
+</body>
+</html>
