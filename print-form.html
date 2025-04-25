@@ -42,7 +42,7 @@
       border: 1px solid black;
     }
     th, td {
-      padding: 8px 12px;
+      padding: 5px 12px;
       font-size: 16px;
       vertical-align: top;
     }
@@ -55,6 +55,9 @@
       margin-top: 10px;
       border-top: 1px dashed black;
       padding-top: 5px;
+    }
+    .note .right {
+      text-align: center;
     }
     .signature-section {
       display: flex;
@@ -79,233 +82,90 @@
   </style>
 </head>
 <body>
-  <div class="print-container">
-    <div class="header">
-      <div style="font-size:14px">কালেকশো</div>
-      <h1>মেসার্স শামীম মোটরস</h1>
-      <h2>প্রোঃ শামীম আহমেদ</h2>
-      <div class="subtext">
-        এখানে সকল প্রকার মোটরস বাইক সুলভমূল্যে বিক্রয় করা হয়<br>
-        বিঃ দ্রঃ কিস্তির পূরোনো ধারা স্টকে পাওয়া যায় এবং স্টকে সাইকেল এক্সচেঞ্জ করার ব্যবস্থা রয়েছে<br>
-        মোবাঃ ০১৭৪-৭৫৬২২৪৮, বিকাশঃ ০১৯৪৯-০৩৬৫৭৬
-      </div>
-    </div>
-
-    <table>
-      <tr>
-        <th class="gray-bg">ক্রমিকঃ</th>
-        <td class="wide-cell"></td>
-        <th class="gray-bg">তারিখঃ</th>
-        <td class="wide-cell"></td>
-      </tr>
-      <tr>
-        <th class="gray-bg">নামঃ</th>
-        <td colspan="3" class="wide-cell"></td>
-      </tr>
-      <tr>
-        <th class="gray-bg">পিতার নামঃ</th>
-        <td class="wide-cell"></td>
-        <th class="gray-bg">মোবাইল নংঃ</th>
-        <td class="wide-cell"></td>
-      </tr>
-      <tr>
-        <th class="gray-bg">জন্ম তারিখঃ</th>
-        <td class="wide-cell"></td>
-      </tr>
-      <tr>
-        <th class="gray-bg">ঠিকানাঃ</th>
-        <td colspan="3" class="wide-cell"></td>
-      </tr>
-    </table>
-
-    <table style="margin-top: 20px;">
-      <tr>
-        <th class="gray-bg" style="width: 50%;">বিবরণ</th>
-        <th class="gray-bg" style="width: 20%;">পরিমাণ</th>
-        <th class="gray-bg" style="width: 30%;">টাকা</th>
-      </tr>
-      <tr>
-        <td>
-          যানবাহনের ধরন:<br>
-          ইঞ্জিন নং:<br>
-          চেসিস নং:<br>
-          মডেল নং:<br>
-          সিসি:<br>
-          কালার:
-        </td>
-        <td></td>
-        <td>
-          <div class="red-box" id="paymentBox">
-            এখানে নগদ এমাউন্ট বসবে<br>
-            যদি "মোট টাকা" এবং "নগদ টাকা" সমান হয় তাহলে বড় করে <b>"পরিশোধিত"</b> লেখা বসবে
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th class="gray-bg">মোট টাকা:</th>
-        <td colspan="2" id="totalCell"></td>
-      </tr>
-      <tr>
-        <th class="gray-bg">নগদ টাকা:</th>
-        <td colspan="2" id="cashCell"></td>
-      </tr>
-      <tr>
-        <th class="gray-bg">বাকি টাকা:</th>
-        <td colspan="2" id="dueCell"></td>
-      </tr>
-    </table>
-
-    <div class="note">
-      সকল কাগজপত্র বুঝিয়ে দেওয়া হইলো।<br>
-      দ্রষ্টব্যঃ সরবরাহকৃত মাল কোন অবস্থায় পরিবর্তন অথবা ফেরত নেওয়া হয় না।
-    </div>
-
-    <div class="signature-section">
-      <div class="signature">ক্রেতার স্বাক্ষর</div>
-      <div class="signature">বিক্রেতার স্বাক্ষর</div>
+<div class="print-container">
+  <div class="header">
+    <div style="font-size:14px">ক্যাশমেমো</div>
+    <h1>মেসার্স শামীম মোটরস</h1>
+    <h2>প্রোঃ শামীম আহমেদ</h2>
+    <div class="subtext">
+      এখানে সকল প্রকার মটরস বাইক সুলভমূল্যে বিক্রয় করা হয়<br>
+      বিঃ দ্রঃ কিস্তির পুরোনো ধরা মটর সাইকেল পাওয়া যায় এবং মটর সাইকেল একচেঞ্জ করার ব্যবস্থা রয়েছে<br>
+      মোবাঃ ০১৭১৪-৭৫২২৭৪, বিকাশ: ০১৭৪৯-০১৪৩৩৬
     </div>
   </div>
-<script>
-  // এই স্ক্রিপ্ট আপনি entry form থেকে ডেটা পাঠানোর পর কল করতে পারেন
-  // উদাহরণ হিসেবে নিচে কিছু ডেমো ভ্যালু বসানো হয়েছে
 
-  const totalAmount = 500;
-  const cashAmount = 500;
-  const paymentBox = document.getElementById("paymentBox");
-  const totalCell = document.getElementById("totalCell");
-  const cashCell = document.getElementById("cashCell");
-  const dueCell = document.getElementById("dueCell");
+  <table>
+    <tr>
+      <th class="gray-bg">ক্রমিক:</th>
+      <td class="wide-cell" id="serial"></td>
+      <th class="gray-bg">তারিখ:</th>
+      <td class="wide-cell" id="date"></td>
+    </tr>
+    <tr>
+      <th class="gray-bg">নাম:</th>
+      <td colspan="3" class="wide-cell" id="name"></td>
+    </tr>
+    <tr>
+      <th class="gray-bg">পিতার নাম:</th>
+      <td colspan="3" class="wide-cell" id="father"></td>
+    </tr>
+    <tr>
+      <th class="gray-bg">মোবাইল নং:</th>
+      <td class="wide-cell" id="mobile"></td>
+      <th class="gray-bg">জন্ম তারিখ:</th>
+      <td class="wide-cell" id="dob"></td>
+    </tr>
+    <tr>
+      <th class="gray-bg">ঠিকানা:</th>
+      <td colspan="3" class="wide-cell" id="address"></td>
+    </tr>
+  </table>
 
-  // টাকার ঘরে ভ্যালু বসানো
-  totalCell.textContent = totalAmount + " টাকা";
-  cashCell.textContent = cashAmount + " টাকা";
-  dueCell.textContent = (totalAmount - cashAmount) + " টাকা";
+  <table>
+    <tr>
+      <th class="gray-bg" style="width: 50%;">বিবরণ</th>
+      <th class="gray-bg" style="width: 20%;">পরিমাণ</th>
+      <th class="gray-bg" style="width: 30%;">টাকা</th>
+    </tr>
+    <tr>
+      <td>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="border: 1px solid white;"><b>যানবাহনের ধরন:</b></td><td style="border: 1px solid white;" id="vehicle_type"></td></tr>
+          <tr><td style="border: 1px solid white;"><b>ইঞ্জিন নং:</b></td><td style="border: 1px solid white;" id="engine"></td></tr>
+          <tr><td style="border: 1px solid white;"><b>চেসিস নং:</b></td><td style="border: 1px solid white;" id="chassis"></td></tr>
+          <tr><td style="border: 1px solid white;"><b>মডেল নং:</b></td><td style="border: 1px solid white;" id="model"></td></tr>
+          <tr><td style="border: 1px solid white;"><b>সিসি:</b></td><td style="border: 1px solid white;" id="cc"></td></tr>
+          <tr><td style="border: 1px solid white;"><b>কালার:</b></td><td style="border: 1px solid white;" id="color"></td></tr>
+        </table>
+      </td>
+      <td></td>
+      <td><div class="red-box" id="paymentBox">...</div></td>
+    </tr>
+    <tr>
+      <th class="gray-bg">মোট টাকা:</th>
+      <td colspan="2" id="totalCell"></td>
+    </tr>
+    <tr>
+      <th class="gray-bg">নগদ টাকা:</th>
+      <td colspan="2" id="cashCell"></td>
+    </tr>
+    <tr>
+      <th class="gray-bg">বাকি টাকা:</th>
+      <td colspan="2" id="dueCell"></td>
+    </tr>
+  </table>
 
-  // পরিশোধিত শর্ত
-  if (totalAmount === cashAmount) {
-    paymentBox.innerHTML = '<div style="font-size: 24px; font-weight: bold;">পরিশোধিত</div>';
-  } else {
-    paymentBox.innerHTML = `
-      ${cashAmount} টাকা<br>
-      (এখানে নগদ এমাউন্ট বসবে)<br>
-      যদি \"মোট টাকা\" এবং \"নগদ টাকা\" সমান হয় তাহলে বড় করে <b>\"পরিশোধিত\"</b> লেখা বসবে
-    `;
-  }
+  <div class="note">
+    <div>সব কাগজপত্র বুঝিয়ে দেওয়া হইলো।</div>
+	<div><br></div>
+    <div class="right">বিক্রয়ের তারিখ হইতে পরবর্তী এক মাসের ভিতর মুল রেজিস্ট্রেশনপত্র সংগ্রহ না করিলে উক্ত প্রতিষ্ঠান দায়ি নহে।<br>
+	বিদ্রঃ সরবারহকৃত মাল কোন অবস্থায় পরিবর্তন অথবা ফেরত নেওয়া হয় না।</div>
+  </div>
 
-  function loadPrintData(data) {
-    document.querySelectorAll('td').forEach(td => td.textContent = ''); // Clear all existing cells
-    const tdMap = {
-      serial: 0,
-      date: 1,
-      name: 2,
-      father: 3,
-      mobile: 4,
-      dob: 5,
-      address: 6
-    };
-    const tableCells = document.querySelectorAll("table:first-of-type td");
-    tableCells[tdMap.serial].textContent = data.serial || "";
-    tableCells[tdMap.date].textContent = data.date || "";
-    tableCells[tdMap.name].textContent = data.name || "";
-    tableCells[tdMap.father].textContent = data.father || "";
-    tableCells[tdMap.mobile].textContent = data.mobile || "";
-    tableCells[tdMap.dob].textContent = data.dob || "";
-    tableCells[tdMap.address].textContent = data.address || "";
-
-    const vehicleInfo = [
-      data.vehicle_type, data.engine, data.chassis, data.model, data.cc, data.color
-    ].map(line => line || "").join('<br>');
-    document.querySelectorAll("table")[1].rows[1].cells[0].innerHTML = vehicleInfo;
-
-    totalCell.textContent = data.total + " টাকা";
-    cashCell.textContent = data.cash + " টাকা";
-    dueCell.textContent = (parseFloat(data.total) - parseFloat(data.cash)) + " টাকা";
-
-    if (parseFloat(data.total) === parseFloat(data.cash)) {
-      paymentBox.innerHTML = '<div style="font-size: 24px; font-weight: bold;">পরিশোধিত</div>';
-    } else {
-      paymentBox.innerHTML = `${data.cash} টাকা<br>(এখানে নগদ এমাউন্ট বসবে)<br>যদি \"মোট টাকা\" এবং \"নগদ টাকা\" সমান হয় তাহলে বড় করে <b>\"পরিশোধিত\"</b> লেখা বসবে`;
-    }
-  }
-
-  // For demo purpose: pulling from localStorage last entry
-  const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-  if (entries.length > 0) {
-    loadPrintData(entries[entries.length - 1]);
-  }
-
-    function print() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
-        return;
-      }
-      const lastEntry = entries[entries.length - 1];
-      const query = encodeURIComponent(JSON.stringify(lastEntry));
-      const win = window.open("print-form.html?data=" + query, "_blank");
-    }
-  
-    function print() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
-        return;
-      }
-      const lastEntry = entries[entries.length - 1];
-      const query = encodeURIComponent(JSON.stringify(lastEntry));
-      window.open("print-form.html?data=" + query, "_blank");
-    }
-  
-  function loadPrintData(data) {
-    const tableCells = document.querySelectorAll("table:first-of-type td");
-    tableCells[0].textContent = data.serial || "";
-    tableCells[1].textContent = data.date || "";
-    tableCells[2].textContent = data.name || "";
-    tableCells[3].textContent = data.father || "";
-    tableCells[4].textContent = data.mobile || "";
-    tableCells[5].textContent = data.dob || "";
-    tableCells[6].textContent = data.address || "";
-
-    const vehicleInfo = [
-      data.vehicle_type, data.engine, data.chassis, data.model, data.cc, data.color
-    ].map(line => line || "").join('<br>');
-    document.querySelectorAll("table")[1].rows[1].cells[0].innerHTML = vehicleInfo;
-
-    document.getElementById("totalCell").textContent = data.total + " টাকা";
-    document.getElementById("cashCell").textContent = data.cash + " টাকা";
-    document.getElementById("dueCell").textContent = (parseFloat(data.total) - parseFloat(data.cash)) + " টাকা";
-
-    const paymentBox = document.getElementById("paymentBox");
-    if (parseFloat(data.total) === parseFloat(data.cash)) {
-      paymentBox.innerHTML = '<div style="font-size: 24px; font-weight: bold;">পরিশোধিত</div>';
-    } else {
-      paymentBox.innerHTML = `${data.cash} টাকা<br>(এখানে নগদ এমাউন্ট বসবে)<br>যদি \"মোট টাকা\" এবং \"নগদ টাকা\" সমান হয় তাহলে বড় করে <b>\"পরিশোধিত\"</b> লেখা বসবে`;
-    }
-  }
-
-  // Query string থেকে ডেটা রিড করে বসানো
-  const urlParams = new URLSearchParams(window.location.search);
-  const dataParam = urlParams.get("data");
-  if (dataParam) {
-    try {
-      const formData = JSON.parse(decodeURIComponent(dataParam));
-      loadPrintData(formData);
-    } catch (e) {
-      console.error("Invalid data format:", e);
-    }
-  }
-
-    function print() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
-        return;
-      }
-      const lastEntry = entries[entries.length - 1];
-      const query = encodeURIComponent(JSON.stringify(lastEntry));
-      window.open("print-form.html?data=" + query, "_blank");
-    }
-  </script>
-<button onclick="window.print()" style="position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#22225c;color:white;border:none;border-radius:6px;cursor:pointer;">প্রিন্ট করুন</button>
+  <div class="signature-section">
+    <div class="signature">ক্রেতার স্বাক্ষর</div>
+    <div class="signature">বিক্রেতার স্বাক্ষর</div>
+  </div>
+</div>
 </body>
 </html>
