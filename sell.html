@@ -364,5 +364,22 @@
     };
   }
 </script>
+  <script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbya0qqZXpmIMgLStBB16-xcgkVyNv3RbeT3Xyq2pC3myJO2PD5AsYYDt3sE8WkQvl4dwA/exec';
+  const form = document.getElementById('entryForm');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+        alert('✅ ফর্মের তথ্য সফলভাবে Google Sheets-এ পাঠানো হয়েছে!');
+        form.reset();
+      })
+      .catch(error => {
+        alert('❌ কিছু একটা সমস্যা হয়েছে!');
+        console.error('Error!', error.message);
+      });
+  });
+</script>
 </body>
 </html>
