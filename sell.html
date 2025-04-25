@@ -336,18 +336,17 @@
     }
   </script>
   <script>
-  // অন্যান্য ফাংশন যেমন loadPrevious(), loadNext(), deleteForm() ইত্যাদি...
-
   function print() {
     const entries = JSON.parse(localStorage.getItem("entries") || "[]");
     if (entries.length === 0) {
       alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
       return;
     }
-    const selectedEntry = entries[currentIndex]; // ✅ এখন স্ক্রিনে দেখা তথ্য
-    const query = encodeURIComponent(JSON.stringify(selectedEntry));
+    const lastEntry = entries[entries.length - 1];
+    const query = encodeURIComponent(JSON.stringify(lastEntry));
     window.open("print-form.html?data=" + query, "_blank");
   }
 </script>
+
 </body>
 </html>
