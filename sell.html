@@ -383,5 +383,63 @@
   cashInput.addEventListener('input', calculateDue);
 </script>
 
+
+<script>
+  function downloadPDF() {
+    const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+    if (entries.length === 0) {
+      alert("PDF করার মতো তথ্য নেই!");
+      return;
+    }
+    const selectedEntry = entries[entries.length - 1];
+    const query = encodeURIComponent(JSON.stringify(selectedEntry));
+    const printWindow = window.open("print-form.html?data=" + query, "_blank");
+
+    printWindow.onload = function () {
+      printWindow.focus();
+      printWindow.print();
+    };
+  }
+</script>
+
+<script>
+const scriptURL = 'https://script.google.com/macros/s/AKfycbya0qqZXpmIMgLStBB16-xcgkVyNv3RbeT3Xyq2pC3myJO2PD5AsYYDt3sE8WkQvl4dwA/exec';
+
+document.getElementById("entryForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const form = new FormData(this);
+
+  fetch(scriptURL, { method: 'POST', body: form })
+    .then(response => {
+      if (response.ok) {
+        alert('✅ সফলভাবে জমা হয়েছে!');
+        this.reset();
+      } else {
+        alert('❌ কিছু সমস্যা হয়েছে!');
+      }
+    })
+    .catch(error => {
+      alert('❌ সমস্যা হয়েছে: ' + error.message);
+    });
+});
+</script>
+
+<script>
+  const totalInput = document.querySelector('input[name="total"]');
+  const cashInput = document.querySelector('input[name="cash"]');
+  const dueInput = document.querySelector('input[name="due"]');
+
+  function calculateDue() {
+    const total = parseFloat(totalInput.value) || 0;
+    const cash = parseFloat(cashInput.value) || 0;
+    const due = total - cash;
+    dueInput.value = due >= 0 ? due : 0;
+  }
+
+  totalInput.addEventListener('input', calculateDue);
+  cashInput.addEventListener('input', calculateDue);
+</script>
+
 </body>
 </html>
