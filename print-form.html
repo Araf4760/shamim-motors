@@ -168,4 +168,44 @@
   </div>
 </div>
 </body>
+<script>
+  function getQueryData() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const data = urlParams.get("data");
+    return data ? JSON.parse(decodeURIComponent(data)) : null;
+  }
+
+  const entry = getQueryData();
+  if (entry) {
+    document.getElementById("serial").textContent = entry.serial || "";
+    document.getElementById("date").textContent = entry.date || "";
+    document.getElementById("name").textContent = entry.name || "";
+    document.getElementById("father").textContent = entry.father || "";
+    document.getElementById("mobile").textContent = entry.mobile || "";
+    document.getElementById("dob").textContent = entry.dob || "";
+    document.getElementById("address").textContent = entry.address || "";
+
+    document.getElementById("vehicle_type").textContent = entry.vehicle_type || "";
+    document.getElementById("engine").textContent = entry.engine || "";
+    document.getElementById("chassis").textContent = entry.chassis || "";
+    document.getElementById("model").textContent = entry.model || "";
+    document.getElementById("cc").textContent = entry.cc || "";
+    document.getElementById("color").textContent = entry.color || "";
+
+    const total = parseFloat(entry.total || 0);
+    const cash = parseFloat(entry.cash || 0);
+    const due = total - cash;
+
+    document.getElementById("totalCell").textContent = total + " টাকা";
+    document.getElementById("cashCell").textContent = cash + " টাকা";
+    document.getElementById("dueCell").textContent = due + " টাকা";
+
+    const paymentBox = document.getElementById("paymentBox");
+    if (total === cash) {
+      paymentBox.innerHTML = '<div style="font-size: 24px; font-weight: bold;">পরিশোধিত</div>';
+    } else {
+      paymentBox.innerHTML = cash + " টাকা";
+    }
+  }
+</script>
 </html>
