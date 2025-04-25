@@ -12,6 +12,29 @@
       padding: 30px;
     }
     .container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  /* মোবাইলের জন্য */
+  @media only screen and (max-width: 600px) {
+    .container {
+      padding: 10px;
+      max-width: 100%;
+    }
+
+    input, button, select {
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }	  
+    .container {
       background-color: #1c1c44;
       max-width: 900px;
       margin: auto;
@@ -440,6 +463,6 @@ document.getElementById("entryForm").addEventListener("submit", function(e) {
   totalInput.addEventListener('input', calculateDue);
   cashInput.addEventListener('input', calculateDue);
 </script>
-
+	
 </body>
 </html>
