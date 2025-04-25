@@ -3,7 +3,7 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Entry Form</title>
+  <title>Sell Form</title>
   <style>
     body {
       background-color: #1c1c44;
@@ -123,13 +123,13 @@
       <div class="logo-box">লোগো</div>
       <h2>মেসার্স শামীম মটরস</h2>
       <div class="search-box">
-        <div class="form-title">Entry Form</div>
+        <div class="form-title">Sell Form</div>
         <div class="search-label" onclick="searchEntry()">সার্চ</div>
         <input type="text" id="searchInput">
       </div>
     </div>
 
-    <form id="entryForm" method="post">
+    <form id="entryForm">
       <!-- form rows (same as before) -->
       <div class="form-row">
         <div class="form-group">
@@ -202,7 +202,7 @@
           <input type="text" name="color">
         </div>
       </div>
-      <div class="section-title">ব্যয়সম</div>
+      <div class="section-title">ক্যাশ</div>
       <div class="form-row">
         <div class="form-group">
           <label>মোট টাকা:</label>
@@ -224,8 +224,8 @@
         <button type="button" onclick="loadPrevious()">পূর্বের তথ্য</button>
         <button type="button" onclick="loadNext()">পরের তথ্য</button>
         <button type="button" onclick="deleteForm()">ডিলিট</button>
+		<button type="button" onclick="downloadPDF()">PDF</button>
         <button type="button" onclick="print()">প্রিন্ট</button>
-        <button type="button" onclick="downloadPDF()">PDF</button>
         <button type="button" onclick="exportData()">এক্সপোর্ট</button>
       </div>
     </form>
@@ -346,6 +346,8 @@
   window.open("print-form.html?data=" + query, "_blank");
 }
 </script>
+
+
 <script>
   function downloadPDF() {
     const entries = JSON.parse(localStorage.getItem("entries") || "[]");
@@ -353,33 +355,33 @@
       alert("PDF করার মতো তথ্য নেই!");
       return;
     }
-    const selectedEntry = entries[currentIndex];
+    const selectedEntry = entries[entries.length - 1];
     const query = encodeURIComponent(JSON.stringify(selectedEntry));
     const printWindow = window.open("print-form.html?data=" + query, "_blank");
 
-    // Wait for new window to load then trigger print (PDF save)
     printWindow.onload = function () {
       printWindow.focus();
       printWindow.print();
     };
   }
 </script>
-  <script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbya0qqZXpmIMgLStBB16-xcgkVyNv3RbeT3Xyq2pC3myJO2PD5AsYYDt3sE8WkQvl4dwA/exec';
-  const form = document.getElementById('entryForm');
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-      .then(response => {
-        alert('✅ ফর্মের তথ্য সফলভাবে Google Sheets-এ পাঠানো হয়েছে!');
-        form.reset();
-      })
-      .catch(error => {
-        alert('❌ কিছু একটা সমস্যা হয়েছে!');
-        console.error('Error!', error.message);
-      });
-  });
+
+<script>
+  const totalInput = document.querySelector('input[name="total"]');
+  const cashInput = document.querySelector('input[name="cash"]');
+  const dueInput = document.querySelector('input[name="due"]');
+
+  function calculateDue() {
+    const total = parseFloat(totalInput.value) || 0;
+    const cash = parseFloat(cashInput.value) || 0;
+    const due = total - cash;
+    dueInput.value = due >= 0 ? due : 0;
+  }
+
+  totalInput.addEventListener('input', calculateDue);
+  cashInput.addEventListener('input', calculateDue);
 </script>
+
 </body>
 </html>
