@@ -2,6 +2,7 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Shamim Motors</title>
   <style>
     body {
@@ -12,51 +13,85 @@
       color: white;
     }
     .container {
-      max-width: 500px;
-      margin: 80px auto;
-      padding: 40px;
+      width: 90%;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
       background-color: #121235;
       border-radius: 20px;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
       text-align: center;
     }
     h1 {
-      font-size: 30px;
-      margin-bottom: 20px;
+      font-size: 26px;
+      margin-bottom: 10px;
     }
-    .title {
-      font-size: 20px;
+
+    /* DataBase Form ট্যাগ */
+    .tab {
+      display: inline-block;
       background-color: darkgreen;
       color: gold;
-      display: inline-block;
-      padding: 10px 30px;
-      border-radius: 8px;
-      margin-bottom: 30px;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 30px; /* বাটনের থেকে ফাঁকা রেখে */
+    }
+
+    /* বাটনগুলোর গ্রুপ */
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
     }
     .btn {
       background-color: white;
       color: darkgreen;
       border: none;
+      border-radius: 25px;
       padding: 12px 25px;
-      margin: 10px;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
-      border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background-color 0.2s;
     }
     .btn:hover {
       background-color: #d3ffe6;
+    }
+
+    /* মোবাইলে স্ট্যাক, ডেস্কটপে সাইড-বাই-সাইড */
+    @media only screen and (max-width: 600px) {
+      .button-group {
+        flex-direction: column;
+      }
+      .btn {
+        width: 100%;
+      }
+    }
+    @media only screen and (min-width: 601px) {
+      .button-group {
+        flex-direction: row;
+      }
+      .btn {
+        width: auto;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>মেসার্স শামীম মটরস</h1>
-    <div class="title">DataBase Form</div><br><br>
     
-    <button class="btn" onclick="location.href='entry.html'">Entry Form</button>
-    <button class="btn" onclick="location.href='sell.html'">Sell Form</button>
+    <!-- DataBase Form ট্যাগ -->
+    <div class="tab">DataBase Form</div>
+    
+    <!-- Entry & Sell Form বাটন -->
+    <div class="button-group">
+      <button class="btn" onclick="location.href='entry.html'">Entry Form</button>
+      <button class="btn" onclick="location.href='sell.html'">Sell Form</button>
+    </div>
   </div>
 </body>
 </html>
