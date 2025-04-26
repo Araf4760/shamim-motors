@@ -415,26 +415,31 @@
   </script>
 
   <script>
-    const scriptURL = 'AKfycbya0qqZXpmIMgLStBB16-xcgkVyNv3RbeT3Xyq2pC3myJO2PD5AsYYDt3sE8WkQvl4dwA';
+    const scriptURL = 'AKfycbya0qqZXpmIMgLStBB16-xcgkVyNv3RbeT3Xyq2pC3myJO2PD5AsYYDt3sE8WkQvl4dwA'; // এখানে নতুন ডিপ্লয় করা URL বসাবেন
 
-    document.getElementById("entryForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+document.getElementById("entryForm").addEventListener("submit", function(e) {
+  e.preventDefault();
 
-      const form = new FormData(this);
+  const form = new FormData(this);
 
-      fetch(scriptURL, { method: 'POST', body: form })
-        .then(response => {
-          if (response.ok) {
-            alert('✅ সফলভাবে জমা হয়েছে!');
-            this.reset();
-          } else {
-            alert('❌ কিছু সমস্যা হয়েছে!');
-          }
-        })
-        .catch(error => {
-          alert('❌ সমস্যা হয়েছে: ' + error.message);
-        });
-    });
+  fetch(scriptURL, {
+    method: 'POST',
+    body: form,
+    mode: 'cors'
+  })
+  .then(response => response.json())
+  .then(result => {
+    if (result.status === 'success') {
+      alert('✅ সফলভাবে গুগল শীটে জমা হয়েছে!');
+      this.reset();
+    } else {
+      throw new Error('❌ জমা হয়নি।');
+    }
+  })
+  .catch(error => {
+    alert('❌ সমস্যা হয়েছে: ' + error.message);
+  });
+});
   </script>
 
   <script>
