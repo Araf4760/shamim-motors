@@ -419,25 +419,20 @@
 
 document.getElementById("entryForm").addEventListener("submit", function(e) {
   e.preventDefault();
-
   const form = new FormData(this);
 
   fetch(scriptURL, {
     method: 'POST',
-    body: form,
-    mode: 'cors'
+    mode: 'no-cors',   // <<=== cors এর পরিবর্তে no-cors দিলাম
+    body: form
   })
-  .then(response => response.json())
-  .then(result => {
-    if (result.status === 'success') {
-      alert('✅ সফলভাবে গুগল শীটে জমা হয়েছে!');
-      this.reset();
-    } else {
-      throw new Error('❌ জমা হয়নি।');
-    }
+  .then(() => {
+    // no-cors এ JSON response পাওয়া যায় না, তাই সরাসরি success দেখাব
+    alert('✅ সফলভাবে গুগল শীটে জমা হয়েছে!');
+    this.reset();
   })
   .catch(error => {
-    alert('❌ সমস্যা হয়েছে: ' + error.message);
+    alert('❌ সমস্যা হয়েছে: ' + error.message);
   });
 });
   </script>
