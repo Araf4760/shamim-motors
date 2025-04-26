@@ -3,455 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sell Form</title>
+  <title>মেসার্স শামীম মটরস - Sell Form</title>
   <style>
-    body {
-      background-color: #1c1c44;
-      font-family: 'Siyam Rupali', sans-serif;
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
-    h2 {
-      font-size: 32px;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .header-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    .logo-box {
-      width: 70px;
-      height: 70px;
-      border: 2px solid orange;
-      text-align: center;
-      line-height: 70px;
-      color: orange;
-      margin-bottom: 10px;
-    }
-    .form-title {
-      background-color: darkgreen;
-      color: gold;
-      padding: 5px 25px;
-      border-radius: 6px;
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: nowrap;
-    }
-    .search-box input {
-      flex: 1;
-      min-width: 120px;
-      padding: 5px;
-      border-radius: 5px;
-      border: none;
-    }
-    .search-label {
-      background: gold;
-      color: darkred;
-      padding: 5px 10px;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .form-group {
-      flex: 1 1 100%;
-    }
-    label {
-      display: block;
-      background-color: #1c1c44;
-      color: gold;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 8px;
-      background-color: #d5d8ff;
-      color: #000033;
-      font-weight: bold;
-      border-radius: 5px;
-      border: none;
-      box-sizing: border-box;
-    }
-    .section-title {
-      text-align: center;
-      font-size: 20px;
-      margin: 20px 0 10px;
-      font-weight: bold;
-    }
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .buttons button {
-      background-color: #22225c;
-      color: gold;
-      font-weight: bold;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .buttons button:hover {
-      background-color: #3a3a85;
-    }
-    @media only screen and (min-width: 601px) {
-      .form-group {
-        flex: 1 1 calc(50% - 10px);
-      }
-    }
-    @media only screen and (max-width: 600px) {
-      .search-box {
-        width: 100%;
-        margin-top: 10px;
-      }
-    }
+    body { background: #0f0f3d; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .container { max-width: 900px; margin: 20px auto; background: #12123d; padding: 20px; border-radius: 10px; }
+    .header-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .logo-box { border: 2px solid orange; padding: 10px; font-weight: bold; margin-bottom: 10px; }
+    h2 { font-size: 24px; }
+    .search-box { display: flex; align-items: center; gap: 5px; margin-top: 10px; }
+    .form-title { background: green; padding: 5px 10px; border-radius: 5px; }
+    .search-label { background: orange; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+    #searchInput { padding: 5px; }
+    .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    .form-group { flex: 1; min-width: 150px; display: flex; flex-direction: column; }
+    label { margin-bottom: 5px; color: #ffc107; }
+    input { padding: 8px; border: none; border-radius: 5px; }
+    .section-title { background: #1a1a4d; padding: 8px; border-radius: 5px; margin: 15px 0 10px 0; text-align: center; font-weight: bold; }
+    .buttons { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+    button { background: #1a1a4d; color: orange; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #29296b; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header-row">
-      <div class="logo-box">লোগো</div>
-      <h2>মেসার্স শামীম মটরস</h2>
-      <div class="search-box">
-        <div class="form-title">Sell Form</div>
-        <div class="search-label" onclick="searchEntry()">সার্চ</div>
-        <input type="text" id="searchInput">
-      </div>
+<div class="container">
+  <div class="header-row">
+    <div class="logo-box">লোগো</div>
+    <h2>মেসার্স শামীম মটরস</h2>
+    <div class="search-box">
+      <div class="form-title">Sell Form</div>
+      <div class="search-label" onclick="searchEntry()">সার্চ</div>
+      <input type="text" id="searchInput">
     </div>
-
-    <form id="entryForm">
-      <!-- form rows (same as before) -->
-      <div class="form-row">
-        <div class="form-group">
-          <label>ক্রমিক নং:</label>
-          <input type="text" name="serial">
-        </div>
-        <div class="form-group">
-          <label>তারিখ:</label>
-          <input type="date" name="date">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>নাম:</label>
-          <input type="text" name="name">
-        </div>
-        <div class="form-group">
-          <label>পিতার নাম:</label>
-          <input type="text" name="father">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>এন.আই.ডি নং:</label>
-          <input type="text" name="nid">
-        </div>
-        <div class="form-group">
-          <label>জন্ম তারিখ:</label>
-          <input type="date" name="dob">
-        </div>
-        <div class="form-group">
-          <label>মোবাইল নম্বর:</label>
-          <input type="text" name="mobile">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>ঠিকানা:</label>
-          <input type="text" name="address">
-        </div>
-      </div>
-      <div class="section-title">বিবরণ</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>গাড়ির ধরন:</label>
-          <input type="text" name="vehicle_type">
-        </div>
-        <div class="form-group">
-          <label>ইঞ্জিন নম্বর:</label>
-          <input type="text" name="engine">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>চেসিস নম্বর:</label>
-          <input type="text" name="chassis">
-        </div>
-        <div class="form-group">
-          <label>মডেল:</label>
-          <input type="text" name="model">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>সিসি:</label>
-          <input type="text" name="cc">
-        </div>
-        <div class="form-group">
-          <label>কালার:</label>
-          <input type="text" name="color">
-        </div>
-      </div>
-      <div class="section-title">ক্যাশ</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>মোট টাকা:</label>
-          <input type="text" name="total">
-        </div>
-        <div class="form-group">
-          <label>নগদ টাকা:</label>
-          <input type="text" name="cash">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>বাকি টাকা:</label>
-          <input type="text" name="due">
-        </div>
-      </div>
-      <div class="buttons">
-        <button type="submit">জমা</button>
-        <button type="button" onclick="loadPrevious()">পূর্বের তথ্য</button>
-        <button type="button" onclick="loadNext()">পরের তথ্য</button>
-        <button type="button" onclick="deleteForm()">ডিলিট</button>
-		<button type="button" onclick="downloadPDF()">PDF</button>
-        <button type="button" onclick="print()">প্রিন্ট</button>
-        <button type="button" onclick="exportData()">এক্সপোর্ট</button>
-      </div>
-    </form>
   </div>
 
-  <script>
-    let currentIndex = 0;
+  <form id="entryForm">
+    <div class="form-row">
+      <div class="form-group"><label>ক্রমিক নং:</label><input type="text" name="serial"></div>
+      <div class="form-group"><label>তারিখ:</label><input type="date" name="date"></div>
+    </div>
 
-    function getFormData() {
-      const form = document.getElementById("entryForm");
-      const data = new FormData(form);
-      const obj = {};
-      data.forEach((val, key) => obj[key] = val);
-      return obj;
-    }
+    <div class="form-row">
+      <div class="form-group"><label>নাম:</label><input type="text" name="name"></div>
+      <div class="form-group"><label>পিতার নাম:</label><input type="text" name="father"></div>
+    </div>
 
-    function saveToLocal(data) {
-      let entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      entries.push(data);
-      localStorage.setItem("entries", JSON.stringify(entries));
-    }
+    <div class="form-row">
+      <div class="form-group"><label>এন.আই.ডি নং:</label><input type="text" name="nid"></div>
+      <div class="form-group"><label>জন্ম তারিখ:</label><input type="date" name="dob"></div>
+      <div class="form-group"><label>মোবাইল নম্বর:</label><input type="text" name="mobile"></div>
+    </div>
 
-    document.getElementById("entryForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const data = getFormData();
-      saveToLocal(data);
-      alert("তথ্য জমা হয়েছে ✅");
-      this.reset();
+    <div class="form-row">
+      <div class="form-group"><label>ঠিকানা:</label><input type="text" name="address"></div>
+    </div>
+
+    <div class="section-title">বিবরণ</div>
+
+    <div class="form-row">
+      <div class="form-group"><label>গাড়ির ধরন:</label><input type="text" name="vehicle_type"></div>
+      <div class="form-group"><label>ইঞ্জিন নম্বর:</label><input type="text" name="engine"></div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group"><label>চেসিস নম্বর:</label><input type="text" name="chassis"></div>
+      <div class="form-group"><label>মডেল:</label><input type="text" name="model"></div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group"><label>সিসি:</label><input type="text" name="cc"></div>
+      <div class="form-group"><label>কালার:</label><input type="text" name="color"></div>
+    </div>
+
+    <div class="section-title">ক্যাশ</div>
+
+    <div class="form-row">
+      <div class="form-group"><label>মোট টাকা:</label><input type="text" name="total"></div>
+      <div class="form-group"><label>নগদ টাকা:</label><input type="text" name="cash"></div>
+      <div class="form-group"><label>বাকি টাকা:</label><input type="text" name="due"></div>
+    </div>
+
+    <div class="buttons">
+      <button type="submit">জমা</button>
+      <button type="button" onclick="loadPreviousEntry()">পূর্বের তথ্য</button>
+      <button type="button" onclick="loadNextEntry()">পরের তথ্য</button>
+      <button type="button" onclick="deleteEntry()">ডিলিট</button>
+      <button type="button" onclick="downloadPDF()">PDF</button>
+      <button type="button" onclick="printEntry()">প্রিন্ট</button>
+      <button type="button" onclick="exportData()">এক্সপোর্ট</button>
+    </div>
+  </form>
+</div>
+
+<script>
+const apiURL = 'আপনার Apps Script WebApp URL';
+let allEntries = [];
+let currentIndex = -1;
+
+function fetchAllEntries() {
+  fetch(apiURL)
+    .then(response => response.json())
+    .then(data => {
+      allEntries = data.entries;
+    })
+    .catch(error => {
+      console.error('ডেটা আনতে সমস্যা হয়েছে ❌', error);
     });
+}
 
-    function loadForm(index) {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("কোন তথ্য পাওয়া যায়নি!");
-        return;
-      }
-      if (index < 0 || index >= entries.length) {
-        alert("আর কোনো তথ্য নেই!");
-        return;
-      }
-      currentIndex = index;
-      const form = document.getElementById("entryForm");
-      const data = entries[index];
-      Object.keys(data).forEach((key) => {
-        if (form.elements[key]) {
-          form.elements[key].value = data[key];
-        }
-      });
-    }
+function searchEntry() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (!query) {
+    alert('সার্চ টেক্সট দিন!');
+    return;
+  }
+  const foundIndex = allEntries.findIndex(entry =>
+    Object.values(entry).some(val => val.toLowerCase().includes(query))
+  );
+  if (foundIndex !== -1) {
+    currentIndex = foundIndex;
+    fillForm(allEntries[currentIndex]);
+    alert('✅ তথ্য পাওয়া গেছে!');
+  } else {
+    alert('❌ তথ্য খুঁজে পাওয়া যায়নি!');
+  }
+}
 
-    function loadPrevious() {
-      if (currentIndex > 0) {
-        loadForm(currentIndex - 1);
-      } else {
-        alert("এইটা প্রথম তথ্য!");
-      }
-    }
-
-    function loadNext() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (currentIndex < entries.length - 1) {
-        loadForm(currentIndex + 1);
-      } else {
-        alert("এইটা শেষ তথ্য!");
-      }
-    }
-
-    function deleteForm() {
-      let entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("মুছতে কিছু নেই!");
-        return;
-      }
-      if (!confirm("আপনি কি এই তথ্য মুছে ফেলতে চান?")) return;
-      entries.splice(currentIndex, 1);
-      localStorage.setItem("entries", JSON.stringify(entries));
-      if (entries.length > 0) {
-        currentIndex = Math.min(currentIndex, entries.length - 1);
-        loadForm(currentIndex);
-      } else {
-        document.getElementById("entryForm").reset();
-        alert("সব তথ্য মুছে ফেলা হয়েছে।");
-      }
-    }
-
-    function exportData() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      const blob = new Blob([JSON.stringify(entries, null, 2)], {type: "application/json"});
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "entries.json";
-      link.click();
-    }
-
-    function searchEntry() {
-      const query = document.getElementById("searchInput").value.trim().toLowerCase();
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      const foundIndex = entries.findIndex(entry => Object.values(entry).some(val => val.toLowerCase().includes(query)));
-      if (foundIndex >= 0) {
-        loadForm(foundIndex);
-        alert("তথ্য পাওয়া গেছে ✅");
-      } else {
-        alert("তথ্য পাওয়া যায়নি ❌");
-      }
-    }
-  </script>
-
-  <script>
-    function print() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
-        return;
-      }
-      const selectedEntry = entries[currentIndex];
-      const query = encodeURIComponent(JSON.stringify(selectedEntry));
-      window.open("print-form.html?data=" + query, "_blank");
-    }
-  </script>
-
-  <script>
-    function downloadPDF() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("PDF করার মতো তথ্য নেই!");
-        return;
-      }
-      const selectedEntry = entries[entries.length - 1];
-      const query = encodeURIComponent(JSON.stringify(selectedEntry));
-      const printWindow = window.open("print-form.html?data=" + query, "_blank");
-      printWindow.onload = function () {
-        printWindow.focus();
-        printWindow.print();
-      };
-    }
-  </script>
-
-  <script>
-    const totalInput = document.querySelector('input[name="total"]');
-    const cashInput = document.querySelector('input[name="cash"]');
-    const dueInput = document.querySelector('input[name="due"]');
-
-    function calculateDue() {
-      const total = parseFloat(totalInput.value) || 0;
-      const cash = parseFloat(cashInput.value) || 0;
-      const due = total - cash;
-      dueInput.value = due >= 0 ? due : 0;
-    }
-
-    totalInput.addEventListener('input', calculateDue);
-    cashInput.addEventListener('input', calculateDue);
-  </script>
-
-  <script>
-    function downloadPDF() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("PDF করার মতো তথ্য নেই!");
-        return;
-      }
-      const selectedEntry = entries[entries.length - 1];
-      const query = encodeURIComponent(JSON.stringify(selectedEntry));
-      const printWindow = window.open("print-form.html?data=" + query, "_blank");
-      printWindow.onload = function () {
-        printWindow.focus();
-        printWindow.print();
-      };
-    }
-  </script>
-
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbz23ZqI3IG7DtNnVbonVJnHteACXz3ns1a5AqpPWMEEZ_hZIsUR5OhTJAoajNkVjrO12w/exec'; // এখানে নতুন ডিপ্লয় করা URL বসাবেন
-
-document.getElementById("entryForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const form = new FormData(this);
-
-  fetch(scriptURL, {
-    method: 'POST',
-    mode: 'no-cors',   // <<=== cors এর পরিবর্তে no-cors দিলাম
-    body: form
-  })
-  .then(() => {
-    // no-cors এ JSON response পাওয়া যায় না, তাই সরাসরি success দেখাব
-    alert('✅ সফলভাবে গুগল শীটে জমা হয়েছে!');
-    this.reset();
-  })
-  .catch(error => {
-    alert('❌ সমস্যা হয়েছে: ' + error.message);
+function fillForm(data) {
+  Object.keys(data).forEach(key => {
+    const field = document.querySelector(`[name="${key}"]`);
+    if (field) field.value = data[key];
   });
-});
-  </script>
+}
 
-  <script>
-    const totalInput2 = document.querySelector('input[name="total"]');
-    const cashInput2 = document.querySelector('input[name="cash"]');
-    const dueInput2 = document.querySelector('input[name="due"]');
+function loadPreviousEntry() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    fillForm(allEntries[currentIndex]);
+  } else {
+    alert('❌ প্রথম এন্ট্রিতে আছেন!');
+  }
+}
 
-    function calculateDue2() {
-      const total = parseFloat(totalInput2.value) || 0;
-      const cash = parseFloat(cashInput2.value) || 0;
-      const due = total - cash;
-      dueInput2.value = due >= 0 ? due : 0;
-    }
+function loadNextEntry() {
+  if (currentIndex < allEntries.length - 1) {
+    currentIndex++;
+    fillForm(allEntries[currentIndex]);
+  } else {
+    alert('❌ শেষ এন্ট্রিতে আছেন!');
+  }
+}
 
-    totalInput2.addEventListener('input', calculateDue2);
-    cashInput2.addEventListener('input', calculateDue2);
-  </script>
+function deleteEntry() {
+  if (currentIndex === -1) {
+    alert('⚠️ কোন তথ্য সিলেক্ট করা হয়নি!');
+    return;
+  }
+  if (confirm('আপনি কি নিশ্চিত ডিলিট করতে চান? ⚠️')) {
+    allEntries.splice(currentIndex, 1);
+    alert('✅ তথ্য মুছে ফেলা হয়েছে লোকালি! (Google Sheet থেকে আলাদা ডিলিট করতে হবে)');
+    document.getElementById("entryForm").reset();
+  }
+}
+
+function downloadPDF() {
+  const form = document.getElementById('entryForm');
+  const formData = new FormData(form);
+  let entry = {};
+  for (let [key, value] of formData.entries()) {
+    entry[key] = value;
+  }
+  const queryString = encodeURIComponent(JSON.stringify(entry));
+  const printURL = `print-form.html?data=${queryString}`;
+  const newWindow = window.open(printURL, '_blank');
+  newWindow.onload = function() { newWindow.print(); };
+}
+
+function printEntry() {
+  const form = document.getElementById('entryForm');
+  const formData = new FormData(form);
+  let entry = {};
+  for (let [key, value] of formData.entries()) {
+    entry[key] = value;
+  }
+  const queryString = encodeURIComponent(JSON.stringify(entry));
+  const printURL = `print-form.html?data=${queryString}`;
+  window.open(printURL, '_blank');
+}
+
+function exportData() {
+  if (allEntries.length === 0) {
+    alert('⚠️ কোন ডেটা নেই এক্সপোর্ট করার জন্য!');
+    return;
+  }
+  const headers = Object.keys(allEntries[0]);
+  const csvRows = [
+    headers.join(','),
+    ...allEntries.map(row => headers.map(field => `"${row[field] || ''}"`).join(','))
+  ];
+  const csvData = csvRows.join('\n');
+  const blob = new Blob([csvData], { type: 'text/csv' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'entries.csv';
+  link.click();
+}
+
+window.onload = fetchAllEntries;
+</script>
 
 </body>
 </html>
