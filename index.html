@@ -1,8 +1,8 @@
-<!-- index.html (Login Page) -->
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>মেসার্স শামীম মটরস - Login</title>
   <style>
     body {
@@ -11,9 +11,11 @@
       color: white;
       text-align: center;
       padding-top: 50px;
+      margin: 0;
     }
     .container {
-      width: 350px;
+      width: 90%;
+      max-width: 350px;
       margin: auto;
       background: #1c1c44;
       padding: 20px;
@@ -47,10 +49,12 @@
       margin-bottom: 10px;
       border-radius: 6px;
       border: none;
+      box-sizing: border-box;
     }
     button {
-      padding: 10px 20px;
-      margin: 5px;
+      width: 48%;
+      padding: 10px 0;
+      margin: 5px 1%;
       background: white;
       color: green;
       border: none;
@@ -67,6 +71,7 @@
   <div class="container">
     <h2>মেসার্স শামীম মটরস</h2>
     <div class="db-title">DataBase Form</div>
+
     <label for="username">Username</label>
     <input type="text" id="username">
 
@@ -81,7 +86,6 @@
     function login() {
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
-
       if (user === "admin" && pass === "1234") {
         window.location.href = "Dashboard.html";
       } else {
