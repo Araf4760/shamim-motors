@@ -115,7 +115,7 @@
     formData.forEach((v, k) => payload[k] = v);
 
     fetch(apiURL, {
-      method: 'POST',
+      method: 'doPOST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
