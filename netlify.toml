@@ -1,12 +1,30 @@
+# ১) /api – ট্রেইলিং স্ল্যাশ ছাড়া
 [[redirects]]
-  from = "/api/*"
-  to      = "https://script.google.com/macros/s/AKfycbyJCf2e_060jIMnLE97TEuRB3w74nvqyEiZ8x4CLgFPvPaICQ7i4XfgHFuP-6VORNZW/exec"
+  from    = "/api"
+  to      = "https://script.google.com/macros/s/AKfycbz23ZqI3IG7DtNnVbonVJnHteACXz3ns1a5AqpPWMEEZ_hZIsUR5OhTJAoajNkVjrO12w/exec"
   status  = 200
   force   = true
+  methods = ["GET","POST","OPTIONS"]
+
+# ২) /api/* – সব সাবপাথ
+[[redirects]]
+  from    = "/api/*"
+  to      = "https://script.google.com/macros/s/AKfycbz23ZqI3IG7DtNnVbonVJnHteACXz3ns1a5AqpPWMEEZ_hZIsUR5OhTJAoajNkVjrO12w/exec"
+  status  = 200
+  force   = true
+  methods = ["GET","POST","OPTIONS"]
+
+# ৩) CORS হেডার সবার জন্য (/api এবং /api/*)
+[[headers]]
+  for = "/api"
+  [headers.values]
+    Access-Control-Allow-Origin  = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
 
 [[headers]]
   for = "/api/*"
   [headers.values]
-    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Origin  = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
