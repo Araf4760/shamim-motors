@@ -96,153 +96,143 @@
 </div>
 
 <script>
-const apiURL = 'https://script.google.com/macros/s/AKfycbz23ZqI3IG7DtNnVbonVJnHteACXz3ns1a5AqpPWMEEZ_hZIsUR5OhTJAoajNkVjrO12w/exec';
-let allEntries = [];
-let currentIndex = -1;
+  // ১) আপনার Apps Script Web App URL
+  const apiURL = 'https://script.google.com/macros/s/AKfycbyJCf2e_060jIMnLE97TEuRB3w74nvqyEiZ8x4CLgFPvPaICQ7i4XfgHFuP-6VORNZW/exec';
 
-function fetchAllEntries() {
-  fetch(apiURL)
-    .then(response => response.json())
-    .then(data => {
-      allEntries = data.entries;
+  // ২) ক্লায়েন্ট-সাইড ডাটা হোল্ডার
+  let allEntries = [];
+  let currentIndex = -1;
+
+  // ৩) পেজ লোডেই সব এন্ট্রি আনবো
+  window.onload = fetchAllEntries;
+
+  // ৪) ফর্ম সাবমিশন হ্যান্ডলার
+  document.getElementById('entryForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const payload = {};
+    formData.forEach((v, k) => payload[k] = v);
+
+    fetch(apiURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     })
-    .catch(error => {
-      console.error('ডেটা আনতে সমস্যা হয়েছে ❌', error);
+    .then(r => r.json())
+    .then(result => {
+      if (result.status === 'success') {
+        alert('✅ সফলভাবে জমা হয়েছে!');
+        form.reset();
+        fetchAllEntries();
+        currentIndex = -1;
+      } else {
+        alert('❌ জমা হয়নি!');
+      }
+    })
+    .catch(err => {
+      console.error('জমাতে সমস্যা হয়েছে ❌', err);
+      alert('❌ জমাতে সমস্যা হয়েছে!');
     });
-}
-
-document.getElementById('entryForm').addEventListener('submit', function(event) {
-  event.preventDefault(); // রিলোড বন্ধ করি
-  const form = event.target;
-  const formData = new FormData(form);
-  const formObject = {};
-  formData.forEach((value, key) => {
-    formObject[key] = value;
   });
 
-  fetch(apiURL, {
-    method: 'POST',
-    body: JSON.stringify(formObject),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => response.json())
-  .then(result => {
-    if (result.success) {
-      alert('✅ সফলভাবে জমা হয়েছে!');
-      form.reset();
-      fetchAllEntries(); // নতুন ডেটা রিফ্রেশ করবো
+  // ৫) সব এন্ট্রি আনা (GET with no params)
+  function fetchAllEntries() {
+    fetch(apiURL)
+      .then(r => r.json())
+      .then(data => {
+        allEntries = data.entries || [];
+        currentIndex = -1;
+      })
+      .catch(err => {
+        console.error('ডেটা আনতে সমস্যা হয়েছে ❌', err);
+      });
+  }
+
+  // ৬) ফরমে ডেটা ভর্তি করার হেলপার
+  function fillForm(entry) {
+    Object.keys(entry).forEach(key => {
+      const fld = document.querySelector(`[name="${key}"]`);
+      if (fld) fld.value = entry[key];
+    });
+  }
+
+  // ৭) সার্চ (লোকাল কপি allEntries-এ)
+  function searchEntry() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (!q) return alert('দয়া করে সার্চ টেক্সট দিন!');
+    const idx = allEntries.findIndex(entry =>
+      Object.values(entry).some(v =>
+        String(v).toLowerCase().includes(q)
+      )
+    );
+    if (idx !== -1) {
+      currentIndex = idx;
+      fillForm(allEntries[idx]);
+      alert('✅ তথ্য পাওয়া গেছে!');
     } else {
-      alert('❌ জমা হয়নি!');
+      alert('❌ তথ্য খুঁজে পাওয়া যায়নি!');
     }
-  })
-  .catch(error => {
-    console.error('জমাতে সমস্যা হয়েছে ❌', error);
-    alert('❌ জমাতে সমস্যা হয়েছে!');
-  });
-});
-
-function searchEntry() {
-  const query = document.getElementById('searchInput').value.trim().toLowerCase();
-  if (!query) {
-    alert('সার্চ টেক্সট দিন!');
-    return;
   }
-  const foundIndex = allEntries.findIndex(entry =>
-    Object.values(entry).some(val => val.toLowerCase().includes(query))
-  );
-  if (foundIndex !== -1) {
-    currentIndex = foundIndex;
-    fillForm(allEntries[currentIndex]);
-    alert('✅ তথ্য পাওয়া গেছে!');
-  } else {
-    alert('❌ তথ্য খুঁজে পাওয়া যায়নি!');
-  }
-}
 
-function fillForm(data) {
-  Object.keys(data).forEach(key => {
-    const field = document.querySelector(`[name="${key}"]`);
-    if (field) field.value = data[key];
-  });
-}
-
-function loadPreviousEntry() {
-  if (currentIndex > 0) {
-    currentIndex--;
-    fillForm(allEntries[currentIndex]);
-  } else {
-    alert('❌ প্রথম এন্ট্রিতে আছেন!');
+  // ৮) 前/পরের এন্ট্রি লোড
+  function loadPreviousEntry() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      fillForm(allEntries[currentIndex]);
+    } else {
+      alert('❌ প্রথম এন্ট্রিতে আছেন!');
+    }
   }
-}
-
-function loadNextEntry() {
-  if (currentIndex < allEntries.length - 1) {
-    currentIndex++;
-    fillForm(allEntries[currentIndex]);
-  } else {
-    alert('❌ শেষ এন্ট্রিতে আছেন!');
+  function loadNextEntry() {
+    if (currentIndex < allEntries.length - 1) {
+      currentIndex++;
+      fillForm(allEntries[currentIndex]);
+    } else {
+      alert('❌ শেষ এন্ট্রিতে আছেন!');
+    }
   }
-}
 
-function deleteEntry() {
-  if (currentIndex === -1) {
-    alert('⚠️ কোন তথ্য সিলেক্ট করা হয়নি!');
-    return;
-  }
-  if (confirm('আপনি কি নিশ্চিত ডিলিট করতে চান? ⚠️')) {
+  // ৯) লোকালি ডিলেট (Google Sheet থেকে আলাদা API দরকার)
+  function deleteEntry() {
+    if (currentIndex < 0) return alert('⚠️ কোন তথ্য সিলেক্ট করা হয়নি!');
+    if (!confirm('আপনি কি ডিলেট করতে চান?')) return;
     allEntries.splice(currentIndex, 1);
-    alert('✅ তথ্য মুছে ফেলা হয়েছে লোকালি! (Google Sheet থেকে আলাদা ডিলিট করতে হবে)');
-    document.getElementById("entryForm").reset();
+    alert('✅ তথ্য লোকালি মুছে দেওয়া হয়েছে!');
+    document.getElementById('entryForm').reset();
+    currentIndex = -1;
   }
-}
 
-function downloadPDF() {
-  const form = document.getElementById('entryForm');
-  const formData = new FormData(form);
-  let entry = {};
-  for (let [key, value] of formData.entries()) {
-    entry[key] = value;
+  // ১০) PDF/Print (print-form.html পেজে JSON পাঠিয়ে)
+  function downloadPDF() {
+    const data = Object.fromEntries(new FormData(document.getElementById('entryForm')));
+    const qs   = encodeURIComponent(JSON.stringify(data));
+    const url  = `print-form.html?data=${qs}`;
+    const w    = window.open(url, '_blank');
+    w.onload = () => w.print();
   }
-  const queryString = encodeURIComponent(JSON.stringify(entry));
-  const printURL = `print-form.html?data=${queryString}`;
-  const newWindow = window.open(printURL, '_blank');
-  newWindow.onload = function() { newWindow.print(); };
-}
-
-function printEntry() {
-  const form = document.getElementById('entryForm');
-  const formData = new FormData(form);
-  let entry = {};
-  for (let [key, value] of formData.entries()) {
-    entry[key] = value;
+  function printEntry() {
+    const data = Object.fromEntries(new FormData(document.getElementById('entryForm')));
+    const qs   = encodeURIComponent(JSON.stringify(data));
+    window.open(`print-form.html?data=${qs}`, '_blank');
   }
-  const queryString = encodeURIComponent(JSON.stringify(entry));
-  const printURL = `print-form.html?data=${queryString}`;
-  window.open(printURL, '_blank');
-}
 
-function exportData() {
-  if (allEntries.length === 0) {
-    alert('⚠️ কোন ডেটা নেই এক্সপোর্ট করার জন্য!');
-    return;
+  // ১১) এক্সপোর্ট CSV
+  function exportData() {
+    if (!allEntries.length) return alert('⚠️ কোন ডেটা নেই এক্সপোর্ট করার জন্য!');
+    const headers = Object.keys(allEntries[0]);
+    const rows    = allEntries.map(row =>
+      headers.map(h => `"${row[h]||''}"`).join(',')
+    );
+    const csv = [headers.join(','), ...rows].join('\n');
+    const blob= new Blob([csv], { type: 'text/csv' });
+    const link= document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'entries.csv';
+    link.click();
   }
-  const headers = Object.keys(allEntries[0]);
-  const csvRows = [
-    headers.join(','),
-    ...allEntries.map(row => headers.map(field => `"${row[field] || ''}"`).join(','))
-  ];
-  const csvData = csvRows.join('\n');
-  const blob = new Blob([csvData], { type: 'text/csv' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'entries.csv';
-  link.click();
-}
-
-window.onload = fetchAllEntries;
 </script>
+
 <script>
     const totalInput = document.querySelector('input[name="total"]');
     const cashInput = document.querySelector('input[name="cash"]');
