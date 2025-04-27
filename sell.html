@@ -243,6 +243,21 @@ function exportData() {
 
 window.onload = fetchAllEntries;
 </script>
+<script>
+    const totalInput = document.querySelector('input[name="total"]');
+    const cashInput = document.querySelector('input[name="cash"]');
+    const dueInput = document.querySelector('input[name="due"]');
+
+    function calculateDue() {
+      const total = parseFloat(totalInput.value) || 0;
+      const cash = parseFloat(cashInput.value) || 0;
+      const due = total - cash;
+      dueInput.value = due >= 0 ? due : 0;
+    }
+
+    totalInput.addEventListener('input', calculateDue);
+    cashInput.addEventListener('input', calculateDue);
+  </script>
 
 </body>
 </html>
