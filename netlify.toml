@@ -1,0 +1,12 @@
+[[redirects]]
+  from = "/api/*"
+  to      = "https://script.google.com/macros/s/AKfycbyJCf2e_060jIMnLE97TEuRB3w74nvqyEiZ8x4CLgFPvPaICQ7i4XfgHFuP-6VORNZW/exec"
+  status  = 200
+  force   = true
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
