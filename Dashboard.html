@@ -2,96 +2,74 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Shamim Motors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - মেসার্স শামীম মটরস</title>
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       background-color: #1c1c44;
       font-family: 'Siyam Rupali', sans-serif;
-      margin: 0;
-      padding: 0;
       color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
-    .container {
-      width: 90%;
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 30px;
-      background-color: #121235;
+    .card {
+      background-color: #121245;
       border-radius: 20px;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
       text-align: center;
     }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 10px;
-    }
-
-    /* DataBase Form ট্যাগ */
-    .tab {
-      display: inline-block;
-      background-color: darkgreen;
-      color: gold;
-      padding: 12px 25px;
-      border-radius: 25px;
-      font-size: 16px;
+    .brand-title {
+      font-size: 28px;
+	  color: gold;
+      margin-bottom: 20px;
       font-weight: bold;
-      margin-bottom: 30px; /* বাটনের থেকে ফাঁকা রেখে */
     }
-
-    /* বাটনগুলোর গ্রুপ */
-    .button-group {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
+    .tab-tag {
+      display: inline-block;
+      background-color: #1c2833;
+      color: gold;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 30px;
     }
-    .btn {
+    .btn-custom {
       background-color: white;
       color: darkgreen;
-      border: none;
+      font-weight: bold;
       border-radius: 25px;
       padding: 12px 25px;
       font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.2s;
+      transition: background-color 0.3s, color 0.3s;
     }
-    .btn:hover {
+    .btn-custom:hover {
       background-color: #d3ffe6;
-    }
-
-    /* মোবাইলে স্ট্যাক, ডেস্কটপে সাইড-বাই-সাইড */
-    @media only screen and (max-width: 600px) {
-      .button-group {
-        flex-direction: column;
-      }
-      .btn {
-        width: 100%;
-      }
-    }
-    @media only screen and (min-width: 601px) {
-      .button-group {
-        flex-direction: row;
-      }
-      .btn {
-        width: auto;
-      }
+      color: darkgreen;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>মেসার্স শামীম মটরস</h1>
-    
-    <!-- DataBase Form ট্যাগ -->
-    <div class="tab">DataBase Form</div>
-    
-    <!-- Entry & Sell Form বাটন -->
-    <div class="button-group">
-      <button class="btn" onclick="location.href='entry.html'">Entry Form</button>
-      <button class="btn" onclick="location.href='sell.html'">Sell Form</button>
+
+  <div class="card">
+    <div class="brand-title">মেসার্স শামীম মটরস</div>
+    <div class="tab-tag">DataBase Form</div>
+    <div class="d-grid gap-3 d-md-flex justify-content-md-center mt-4">
+      <a href="entry.html" class="btn btn-custom me-md-3">Entry Form</a>
+      <a href="sell.html" class="btn btn-custom">Sell Form</a>
+	  <a href="stocks.html" class="btn btn-custom">Bike Stocks List</a>
     </div>
   </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
