@@ -222,7 +222,47 @@
       }
     });
   </script>
-  
-  
+  <script>
+  function downloadEntries() {
+    const entries = JSON.parse(localStorage.getItem('entries') || '[]');
+    const blob = new Blob([JSON.stringify(entries, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'entries_backup.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+  <script>
+  function uploadEntries() {
+    const fileInput = document.getElementById('uploadFile');
+    if (!fileInput.files.length) {
+      alert('দয়া করে একটি JSON ফাইল নির্বাচন করুন।');
+      return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (Array.isArray(data)) {
+          localStorage.setItem('entries', JSON.stringify(data));
+          alert('তথ্য সফলভাবে আপলোড করা হয়েছে ✅');
+        } else {
+          alert('ফাইলটি সঠিক ফর্ম্যাটে নেই!');
+        }
+      } catch (err) {
+        alert('ডেটা পড়তে সমস্যা হয়েছে।');
+      }
+    };
+
+    reader.readAsText(file);
+  }
+</script>
 </body>
 </html>
