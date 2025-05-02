@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entry Form</title>
+  <style>
+    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin:0; padding:0; }
+    .container { max-width:900px; margin:auto; padding:20px; border-radius:20px; box-shadow:0 0 15px rgba(0,0,0,0.5); }
+    h2 { font-size:32px; text-align:center; margin-bottom:10px; }
+    .header-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .logo-box{width:70px;height:70px;border:2px solid orange;text-align:center;line-height:70px;color:orange;margin-bottom:10px;}
+    .form-title{background-color:darkgreen;color:gold;padding:5px 25px;border-radius:6px;font-size:22px;margin-bottom:10px;}
+    .search-box{display:flex;align-items:center;gap:8px;}
+    .search-box input{flex:1;min-width:120px;padding:5px;border-radius:5px;border:none;}
+    .search-label{background:gold;color:darkred;padding:5px 10px;border-radius:4px;font-weight:bold;cursor:pointer;}
+    .form-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
+    .form-group{flex:1 1 100%;}
+    label{display:block;background-color:#1c1c44;color:gold;padding:5px 10px;border-radius:6px;font-size:14px;margin-bottom:5px;}
+    input, textarea, select{width:100%; height: 30px; padding:8px;background-color:#d5d8ff;color:#000033;font-weight:bold;border-radius:5px;border:none;box-sizing:border-box;}
+    .section-title{text-align:center;font-size:20px;margin:20px 0 10px;font-weight:bold;}
+    .buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px;}
+    .buttons button{background-color:#22225c;color:gold;font-weight:bold;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;}
+    .buttons button:hover{background-color:#3a3a85;}
+    @media (min-width:601px){ .form-group{flex:1 1 calc(50% - 10px);} }
+    @media (max-width:600px){ .search-box{width:100%;margin-top:10px;} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-row">
+      <div class="logo-box">লোগো</div>
+      <h2>মেসার্স শামীম মটরস</h2>
+      <div class="search-box">
+        <div class="form-title">Entry Form</div>
+        <div class="search-label" onclick="searchEntry()">সার্চ</div>
+        <input type="text" id="searchInput" placeholder="খুঁজুন...">
+      </div>
+    </div>
+
+    <form id="entryForm">
+      <div class="form-row">
+        <div class="form-group"><label>ক্রমিক নং:</label><input type="text" name="serial"></div>
+        <div class="form-group"><label>তারিখ:</label><input type="date" name="date"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>নাম:</label><input type="text" name="name"></div>
+        <div class="form-group"><label>পিতার নাম:</label><input type="text" name="father"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>জাতীয় পরিচয়পত্র:</label><input type="text" name="nid"></div>
+        <div class="form-group"><label>জন্মতারিখ:</label><input type="date" name="dob"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>মোবাইল:</label><input type="tel" name="mobile"></div>
+        <div class="form-group"><label>ঠিকানা:</label><textarea name="address"></textarea></div>
+      </div>
+      <div class="section-title">গাড়ির তথ্য</div>
+      <div class="form-row">
+        <div class="form-group"><label>গাড়ির ধরন:</label><input type="text" name="vehicle_type"></div>
+        <div class="form-group"><label>নাম্বার প্লেট:</label><input type="text" name="number_plate"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>ইঞ্জিন নং:</label><input type="text" name="engine"></div>
+        <div class="form-group"><label>চ্যাসিস নং:</label><input type="text" name="chassis"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>মডেল:</label><input type="text" name="model"></div>
+        <div class="form-group"><label>সিসি:</label><input type="text" name="cc"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>রং:</label><input type="text" name="color"></div>
+      </div>
+      <div class="section-title">খরচ বিবরনী</div>
+      <div class="form-row">
+        <div class="form-group"><label>ক্রয় মূল্য:</label><input type="number" name="total"></div>
+      </div>
+      <div class="form-row">
+        <label style="width: 100%; color: gold;">আনুষাঙ্গিক খরচ:</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 15px; width: 100%;">
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 01: <input type="text" name="item1" style="width: 100px;">
+            টাকা: <input type="number" name="amount1" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 02: <input type="text" name="item2" style="width: 100px;">
+            টাকা: <input type="number" name="amount2" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 03: <input type="text" name="item3" style="width: 100px;">
+            টাকা: <input type="number" name="amount3" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 04: <input type="text" name="item4" style="width: 100px;">
+            টাকা: <input type="number" name="amount4" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 05: <input type="text" name="item5" style="width: 100px;">
+            টাকা: <input type="number" name="amount5" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 06: <input type="text" name="item6" style="width: 100px;">
+            টাকা: <input type="number" name="amount6" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 07: <input type="text" name="item7" style="width: 100px;">
+            টাকা: <input type="number" name="amount7" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 08: <input type="text" name="item8" style="width: 100px;">
+            টাকা: <input type="number" name="amount8" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 09: <input type="text" name="item9" style="width: 100px;">
+            টাকা: <input type="number" name="amount9" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 10: <input type="text" name="item10" style="width: 100px;">
+            টাকা: <input type="number" name="amount10" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 11: <input type="text" name="item11" style="width: 100px;">
+            টাকা: <input type="number" name="amount11" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 12: <input type="text" name="item12" style="width: 100px;">
+            টাকা: <input type="number" name="amount12" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 13: <input type="text" name="item13" style="width: 100px;">
+            টাকা: <input type="number" name="amount13" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 14: <input type="text" name="item14" style="width: 100px;">
+            টাকা: <input type="number" name="amount14" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 15: <input type="text" name="item15" style="width: 100px;">
+            টাকা: <input type="number" name="amount15" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 16: <input type="text" name="item16" style="width: 100px;">
+            টাকা: <input type="number" name="amount16" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 17: <input type="text" name="item17" style="width: 100px;">
+            টাকা: <input type="number" name="amount17" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 18: <input type="text" name="item18" style="width: 100px;">
+            টাকা: <input type="number" name="amount18" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 19: <input type="text" name="item19" style="width: 100px;">
+            টাকা: <input type="number" name="amount19" style="width: 80px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            খাত 20: <input type="text" name="item20" style="width: 100px;">
+            টাকা: <input type="number" name="amount20" style="width: 80px;">
+          </div>
+        </div>
+      </div>            
+      <div class="form-row">
+        <div class="form-group"><label>মোট মূল্য:</label><input type="number" name="due" readonly></div>
+      </div>
+
+      <div class="buttons">
+        <button type="submit">জমা</button>
+        <button type="button" onclick="deleteEntry()">ডিলিট</button>
+        <button type="button" onclick="downloadPDF()">PDF</button>
+        <button type="button" onclick="printEntry()">প্রিন্ট</button>
+      </div>
+    </form>
+  </div>
+
+      <script>
+        // ক্রয়মূল্য ও আনুষাঙ্গিক খরচের যোগফল হিসাব করে মোট ঘরে বসানো
+        function updateTotalCost() {
+          const basePrice = parseFloat(document.querySelector('input[name="total"]').value) || 0;
+          let extraCosts = 0;
+          for (let i = 1; i <= 20; i++) {
+            const val = parseFloat(document.querySelector(`input[name="amount${i}"]`)?.value) || 0;
+            extraCosts += val;
+          }
+          document.querySelector('input[name="due"]').value = basePrice + extraCosts;
+        }
+      
+        // সব ইনপুটে ইভেন্ট লিসেনার বসানো
+        window.addEventListener('DOMContentLoaded', () => {
+          const totalInput = document.querySelector('input[name="total"]');
+          totalInput.addEventListener('input', updateTotalCost);
+      
+          for (let i = 1; i <= 20; i++) {
+            const input = document.querySelector(`input[name="amount${i}"]`);
+            if (input) {
+              input.addEventListener('input', updateTotalCost);
+            }
+          }
+        });
+      </script>      
+</body>
+</html>
