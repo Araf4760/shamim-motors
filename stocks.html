@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bike Stocks List</title>
+  <style>
+    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin:0; padding:20px; }
+    .container { max-width:1000px; margin:auto; background-color:#29295c; padding:20px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.5); }
+    h2 { text-align:center; color:gold; margin-bottom:20px; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { padding:10px; border:1px solid #444; text-align:left; }
+    th { background-color: #22225c; color: gold; }
+    tr:nth-child(even) { background-color: #1f1f3f; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Bike Stocks List</h2>
+    <table id="stocksTable">
+      <thead>
+        <tr>
+          <th>গাড়ির ধরন</th>
+          <th>নাম্বার প্লেট</th>
+          <th>ইঞ্জিন নং</th>
+          <th>চ্যাসিস নং</th>
+          <th>মডেল</th>
+          <th>সিসি</th>
+          <th>রং</th>
+          <th>ক্রয় মূল্য</th>
+          <th>আনুষাঙ্গিক মোট</th>
+          <th>মোট মূল্য</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    // Retrieve entries from localStorage
+    const entries = JSON.parse(localStorage.getItem('entries') || '[]');
+    const fields = ['vehicle_type','number_plate','engine','chassis','model','cc','color','total','accessories','due'];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const tbody = document.querySelector('#stocksTable tbody');
+      entries.forEach(entry => {
+        const tr = document.createElement('tr');
+        fields.forEach(field => {
+          const td = document.createElement('td');
+          td.textContent = entry[field] || '';
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+</html>
