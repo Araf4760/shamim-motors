@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bike Stocks List</title>
   <style>
-    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin:0; padding:20px; }
-    .container { max-width:1000px; margin:auto; background-color:#29295c; padding:20px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.5); }
-    h2 { text-align:center; color:gold; margin-bottom:20px; }
-    table { width:100%; border-collapse: collapse; }
-    th, td { padding:10px; border:1px solid #444; text-align:left; }
+    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin: 0; padding: 20px; }
+    .container { max-width: 1000px; margin: auto; background-color: #29295c; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+    h2 { text-align: center; color: gold; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; border: 1px solid #444; text-align: left; }
     th { background-color: #22225c; color: gold; }
     tr:nth-child(even) { background-color: #1f1f3f; }
+    .delete-btn { background: transparent; border: none; cursor: pointer; font-size: 16px; color: #ff4d4d; }
+    .delete-btn:hover { color: #ff1a1a; }
   </style>
 </head>
 <body>
@@ -30,6 +32,7 @@
           <th>ক্রয় মূল্য</th>
           <th>আনুষাঙ্গিক মোট</th>
           <th>মোট মূল্য</th>
+          <th>মুছুন</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -38,18 +41,34 @@
 
   <script>
     // Retrieve entries from localStorage
-    const entries = JSON.parse(localStorage.getItem('entries') || '[]');
+    let entries = JSON.parse(localStorage.getItem('entries') || '[]');
     const fields = ['vehicle_type','number_plate','engine','chassis','model','cc','color','total','accessories','due'];
 
     window.addEventListener('DOMContentLoaded', () => {
       const tbody = document.querySelector('#stocksTable tbody');
-      entries.forEach(entry => {
+      entries.forEach((entry, index) => {
         const tr = document.createElement('tr');
+        // Populate data cells
         fields.forEach(field => {
           const td = document.createElement('td');
           td.textContent = entry[field] || '';
           tr.appendChild(td);
         });
+        // Delete button cell
+        const tdDel = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.className = 'delete-btn';
+        btn.innerHTML = '🗑️';
+        btn.title = 'মুছুন';
+        btn.addEventListener('click', () => {
+          // Remove entry from array and localStorage
+          entries.splice(index, 1);
+          localStorage.setItem('entries', JSON.stringify(entries));
+          // Remove row from table
+          tr.remove();
+        });
+        tdDel.appendChild(btn);
+        tr.appendChild(tdDel);
         tbody.appendChild(tr);
       });
     });
