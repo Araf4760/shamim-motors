@@ -200,5 +200,169 @@
     }
     function downloadPDF() { printEntry(); }
   </script>
+  <script>
+    let currentIndex = 0;
+
+    function getFormData() {
+      const form = document.getElementById("entryForm");
+      const data = new FormData(form);
+      const obj = {};
+      data.forEach((val, key) => obj[key] = val);
+      return obj;
+    }
+
+    function saveToLocal(data) {
+      let entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      entries.push(data);
+      localStorage.setItem("entries", JSON.stringify(entries));
+    }
+
+    document.getElementById("entryForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = getFormData();
+      saveToLocal(data);
+      alert("তথ্য জমা হয়েছে ✅");
+      this.reset();
+    });
+
+    function loadForm(index) {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (entries.length === 0) {
+        alert("কোন তথ্য পাওয়া যায়নি!");
+        return;
+      }
+      if (index < 0 || index >= entries.length) {
+        alert("আর কোনো তথ্য নেই!");
+        return;
+      }
+      currentIndex = index;
+      const form = document.getElementById("entryForm");
+      const data = entries[index];
+      Object.keys(data).forEach((key) => {
+        if (form.elements[key]) {
+          form.elements[key].value = data[key];
+        }
+      });
+    }
+
+    function loadPrevious() {
+      if (currentIndex > 0) {
+        loadForm(currentIndex - 1);
+      } else {
+        alert("এইটা প্রথম তথ্য!");
+      }
+    }
+
+    function loadNext() {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (currentIndex < entries.length - 1) {
+        loadForm(currentIndex + 1);
+      } else {
+        alert("এইটা শেষ তথ্য!");
+      }
+    }
+
+    function deleteForm() {
+      let entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (entries.length === 0) {
+        alert("মুছতে কিছু নেই!");
+        return;
+      }
+      if (!confirm("আপনি কি এই তথ্য মুছে ফেলতে চান?")) return;
+      entries.splice(currentIndex, 1);
+      localStorage.setItem("entries", JSON.stringify(entries));
+      if (entries.length > 0) {
+        currentIndex = Math.min(currentIndex, entries.length - 1);
+        loadForm(currentIndex);
+      } else {
+        document.getElementById("entryForm").reset();
+        alert("সব তথ্য মুছে ফেলা হয়েছে।");
+      }
+    }
+
+    function exportData() {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      const blob = new Blob([JSON.stringify(entries, null, 2)], {type: "application/json"});
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "entries.json";
+      link.click();
+    }
+
+    function searchEntry() {
+      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      const foundIndex = entries.findIndex(entry => Object.values(entry).some(val => val.toLowerCase().includes(query)));
+      if (foundIndex >= 0) {
+        loadForm(foundIndex);
+        alert("তথ্য পাওয়া গেছে ✅");
+      } else {
+        alert("তথ্য পাওয়া যায়নি ❌");
+      }
+    }
+  </script>
+
+  <script>
+    function print() {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (entries.length === 0) {
+        alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
+        return;
+      }
+      const selectedEntry = entries[currentIndex];
+      const query = encodeURIComponent(JSON.stringify(selectedEntry));
+      window.open("print-form.html?data=" + query, "_blank");
+    }
+  </script>
+
+  <script>
+    function downloadPDF() {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (entries.length === 0) {
+        alert("PDF করার মতো তথ্য নেই!");
+        return;
+      }
+      const selectedEntry = entries[entries.length - 1];
+      const query = encodeURIComponent(JSON.stringify(selectedEntry));
+      const printWindow = window.open("print-form.html?data=" + query, "_blank");
+      printWindow.onload = function () {
+        printWindow.focus();
+        printWindow.print();
+      };
+    }
+  </script>
+
+  <script>
+    const totalInput = document.querySelector('input[name="total"]');
+    const cashInput = document.querySelector('input[name="cash"]');
+    const dueInput = document.querySelector('input[name="due"]');
+
+    function calculateDue() {
+      const total = parseFloat(totalInput.value) || 0;
+      const cash = parseFloat(cashInput.value) || 0;
+      const due = total - cash;
+      dueInput.value = due >= 0 ? due : 0;
+    }
+
+    totalInput.addEventListener('input', calculateDue);
+    cashInput.addEventListener('input', calculateDue);
+  </script>
+
+  <script>
+    function downloadPDF() {
+      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+      if (entries.length === 0) {
+        alert("PDF করার মতো তথ্য নেই!");
+        return;
+      }
+      const selectedEntry = entries[entries.length - 1];
+      const query = encodeURIComponent(JSON.stringify(selectedEntry));
+      const printWindow = window.open("print-form.html?data=" + query, "_blank");
+      printWindow.onload = function () {
+        printWindow.focus();
+        printWindow.print();
+      };
+    }
+  </script>
 </body>
 </html>
