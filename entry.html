@@ -124,6 +124,14 @@
         <div class="buttons">
           <button type="submit">জমা</button>
         </div>
+        <div class="buttons" style="margin-top: 30px;">
+  <button onclick="downloadEntries()" style="background-color:#2e8b57;">📥 তথ্য ডাউনলোড</button>
+  
+  <label for="uploadFile" style="background-color:#8b2e2e; padding:10px 20px; border-radius:8px; cursor:pointer; color:gold;">
+    📤 তথ্য আপলোড
+    <input type="file" id="uploadFile" accept=".json" style="display: none;" onchange="uploadEntries()">
+  </label>
+</div>
       </form>
     </div>
   </div>
