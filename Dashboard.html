@@ -27,10 +27,11 @@
       text-align: center;
     }
     .brand-title {
-      font-size: 28px;
-	  color: gold;
+      font-size: 30px;
+      color: gold;
       margin-bottom: 20px;
       font-weight: bold;
+      letter-spacing: 1px;
     }
     .tab-tag {
       display: inline-block;
@@ -41,32 +42,60 @@
       font-size: 18px;
       font-weight: bold;
       margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .btn-custom {
-      background-color: white;
-      color: darkgreen;
+      background: linear-gradient(45deg, #ff9f43, #ff6b6b);
+      color: #fff;
       font-weight: bold;
-      border-radius: 25px;
-      padding: 12px 25px;
+      border-radius: 30px;
+      padding: 12px 28px;
       font-size: 16px;
-      transition: background-color 0.3s, color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
     }
     .btn-custom:hover {
-      background-color: #d3ffe6;
-      color: darkgreen;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 111, 97, 0.5);
+      background: linear-gradient(45deg, #ff6b6b, #ff9f43);
+    }
+    .btn-custom:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    .btn-custom i {
+      font-size: 18px;
+    }
+    .btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    @media (max-width: 576px) {
+      .brand-title { font-size: 24px; }
+      .tab-tag { padding: 8px 20px; font-size: 16px; }
+      .btn-custom { padding: 10px 20px; font-size: 14px; }
     }
   </style>
+  <!-- Icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
   <div class="card">
     <div class="brand-title">মেসার্স শামীম মটরস</div>
     <div class="tab-tag">DataBase Form</div>
-    <div class="d-grid gap-3 d-md-flex justify-content-md-center mt-4">
-      <a href="entry.html" class="btn btn-custom me-md-3">Entry Form</a>
-      <a href="sell.html" class="btn btn-custom">Sell Form</a>
-      <a href="stocks.html" class="btn btn-custom">Bike Stocks List</a>
-      <a href="entrylist.html" class="btn btn-custom">Bike Entry List</a>
+    <div class="btn-container">
+      <a href="entry.html" class="btn-custom"><i class="fas fa-pen"></i> Entry Form</a>
+      <a href="sell.html" class="btn-custom"><i class="fas fa-shopping-cart"></i> Sell Form</a>
+      <a href="stocks.html" class="btn-custom"><i class="fas fa-clipboard-list"></i> Bike Stocks List</a>
+      <a href="entrylist.html" class="btn-custom"><i class="fas fa-list"></i> Bike Entries List</a>
     </div>
   </div>
 
