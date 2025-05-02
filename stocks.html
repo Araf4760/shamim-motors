@@ -5,37 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bike Stocks List</title>
   <style>
-    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin: 0; padding: 20px; }
-    .container { max-width: 1000px; margin: auto; background-color: #29295c; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.5); overflow-x: auto; }
-    h2 { text-align: center; color: gold; margin-bottom: 20px; }
-    table { width: 100%; border-collapse: collapse; min-width: 800px; }
-    th, td { padding: 10px; border: 1px solid #444; text-align: left; }
-    th { background-color: #22225c; color: gold; }
-    tr:nth-child(even) { background-color: #1f1f3f; }
-    .delete-btn { background: transparent; border: none; cursor: pointer; font-size: 16px; color: #ff4d4d; }
-    .delete-btn:hover { color: #ff1a1a; }
+    body {
+      background-color: #1c1c44;
+      font-family: 'Siyam Rupali', sans-serif;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1000px;
+      width: 100%;
+      margin: auto;
+      background-color: #29295c;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    h2 {
+      text-align: center;
+      color: gold;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #444;
+      text-align: left;
+    }
+    th {
+      background-color: #22225c;
+      color: gold;
+    }
+    tr:nth-child(even) {
+      background-color: #1f1f3f;
+    }
+    .delete-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #ff4d4d;
+    }
+    .delete-btn:hover {
+      color: #ff1a1a;
+    }
+    /* Mobile responsive */
     @media (max-width: 768px) {
-      .container { padding: 10px; }
-      table, thead, tbody, th, td, tr { display: block; }
-      thead tr { position: absolute; top: -9999px; left: -9999px; }
-      tr { margin: 0 0 1rem 0; }
+      table thead {
+        display: none;
+      }
+      table, tbody, tr, td {
+        display: block;
+        width: 100%;
+      }
+      tr {
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #444;
+      }
       td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
         border: none;
-        padding: 10px;
-        text-align: left;
-        position: relative;
-        padding-left: 50%;
       }
       td:before {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
         content: attr(data-label);
         font-weight: bold;
         color: gold;
+      }
+      td:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
       }
     }
   </style>
@@ -64,36 +108,30 @@
   </div>
 
   <script>
-    // Retrieve entries from localStorage
-    let entries = JSON.parse(localStorage.getItem('entries') || '[]');
+    const entries = JSON.parse(localStorage.getItem('entries') || '[]');
     const fields = ['vehicle_type','number_plate','engine','chassis','model','cc','color','total','accessories','due'];
 
-    window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
       const tbody = document.querySelector('#stocksTable tbody');
-      // Extract header labels for responsive data-labels
       const headerLabels = Array.from(document.querySelectorAll('#stocksTable thead th'))
-                              .slice(0, fields.length)
-                              .map(th => th.textContent.trim());
+                                .map(th => th.textContent.trim());
+
       entries.forEach((entry, index) => {
         const tr = document.createElement('tr');
-        // Populate data cells with data-label attributes
         fields.forEach((field, i) => {
           const td = document.createElement('td');
-          td.textContent = entry[field] || '';
           td.setAttribute('data-label', headerLabels[i]);
+          td.textContent = entry[field] || '';
           tr.appendChild(td);
         });
-        // Delete button cell
         const tdDel = document.createElement('td');
         const btn = document.createElement('button');
         btn.className = 'delete-btn';
         btn.innerHTML = '🗑️';
         btn.title = 'মুছুন';
         btn.addEventListener('click', () => {
-          // Remove entry from array and localStorage
           entries.splice(index, 1);
           localStorage.setItem('entries', JSON.stringify(entries));
-          // Remove row from table
           tr.remove();
         });
         tdDel.appendChild(btn);
