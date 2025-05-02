@@ -5,137 +5,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bike Stocks List</title>
   <style>
-    body {
-      background-color: #1c1c44;
-      font-family: 'Siyam Rupali', sans-serif;
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 1000px;
-      width: 100%;
-      margin: auto;
-      background-color: #29295c;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    }
-    h2 {
-      text-align: center;
-      color: gold;
-      margin-bottom: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 10px;
-      border: 1px solid #444;
-      text-align: left;
-    }
-    th {
-      background-color: #22225c;
-      color: gold;
-    }
-    tr:nth-child(even) {
-      background-color: #1f1f3f;
-    }
-    .delete-btn {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      color: #ff4d4d;
-    }
-    .delete-btn:hover {
-      color: #ff1a1a;
-    }
-    /* Mobile responsive */
-    @media (max-width: 768px) {
-      table thead {
-        display: none;
-      }
-      table, tbody, tr, td {
-        display: block;
-        width: 100%;
-      }
-      tr {
-        margin-bottom: 1rem;
-        border-bottom: 1px solid #444;
-      }
-      td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-        border: none;
-      }
-      td:before {
-        content: attr(data-label);
-        font-weight: bold;
-        color: gold;
-      }
-      td:last-child {
-        padding-bottom: 0;
-        border-bottom: none;
-      }
+    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin: 0; padding: 20px; }
+    .container { max-width: 1200px; margin: auto; background-color: #29295c; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+    h2 { text-align: center; color: gold; margin-bottom: 20px; }
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    th, td { padding: 8px; border: 1px solid #444; text-align: left; font-size: 14px; }
+    th { background-color: #22225c; color: gold; }
+    tr:nth-child(even) { background-color: #1f1f3f; }
+    .nowrap { white-space: nowrap; }
+    .delete-btn { background: transparent; border: none; cursor: pointer; color: #ff4d4d; font-size: 16px; }
+    .delete-btn:hover { color: #ff1a1a; }
+    @media (max-width:600px) {
+      table, th, td { font-size: 12px; }
+      th, td { padding: 5px; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead tr { position: absolute; top: -9999px; left: -9999px; }
+      tr { margin: 0 0 1rem 0; }
+      td { border: none; position: relative; padding-left: 50%; }
+      td:before { position: absolute; top: 5px; left: 5px; width: 45%; padding-right: 10px; white-space: nowrap; content: attr(data-label); font-weight: bold; color: gold; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Bike Stocks List</h2>
-    <table id="stocksTable">
-      <thead>
-        <tr>
-          <th>গাড়ির ধরন</th>
-          <th>নাম্বার প্লেট</th>
-          <th>ইঞ্জিন নং</th>
-          <th>চ্যাসিস নং</th>
-          <th>মডেল</th>
-          <th>সিসি</th>
-          <th>রং</th>
-          <th>ক্রয় মূল্য</th>
-          <th>আনুষাঙ্গিক মোট</th>
-          <th>মোট মূল্য</th>
-          <th>মুছুন</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="table-responsive">
+      <table id="stocksTable">
+        <thead>
+          <tr>
+            <th>গাড়ির ধরন</th>
+            <th>নাম্বার প্লেট</th>
+            <th>ইঞ্জিন নং</th>
+            <th>চ্যাসিস নং</th>
+            <th>মডেল</th>
+            <th class="nowrap">CC</th>
+            <th>রং</th>
+            <th class="nowrap">ক্রয় মূল্য</th>
+            <th class="nowrap">আনুষাঙ্গিক মোট</th>
+            <th class="nowrap">মোট মূল্য</th>
+            <th>মুছুন</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
   <script>
-    const entries = JSON.parse(localStorage.getItem('entries') || '[]');
+    let entries = JSON.parse(localStorage.getItem('entries') || '[]');
     const fields = ['vehicle_type','number_plate','engine','chassis','model','cc','color','total','accessories','due'];
 
-    document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', () => {
       const tbody = document.querySelector('#stocksTable tbody');
-      const headerLabels = Array.from(document.querySelectorAll('#stocksTable thead th'))
-                                .map(th => th.textContent.trim());
+      const headers = Array.from(document.querySelectorAll('#stocksTable thead th'))
+                            .slice(0, fields.length)
+                            .map(th => th.textContent.trim());
 
-      entries.forEach((entry, index) => {
+      entries.forEach((entry, idx) => {
         const tr = document.createElement('tr');
-        fields.forEach((field, i) => {
+        fields.forEach((f, i) => {
           const td = document.createElement('td');
-          td.setAttribute('data-label', headerLabels[i]);
-          td.textContent = entry[field] || '';
+          td.textContent = entry[f] || '';
+          td.setAttribute('data-label', headers[i]);
           tr.appendChild(td);
         });
-        const tdDel = document.createElement('td');
+        const delTd = document.createElement('td');
         const btn = document.createElement('button');
         btn.className = 'delete-btn';
         btn.innerHTML = '🗑️';
         btn.title = 'মুছুন';
         btn.addEventListener('click', () => {
-          entries.splice(index, 1);
+          entries.splice(idx, 1);
           localStorage.setItem('entries', JSON.stringify(entries));
           tr.remove();
         });
-        tdDel.appendChild(btn);
-        tr.appendChild(tdDel);
+        delTd.appendChild(btn);
+        tr.appendChild(delTd);
         tbody.appendChild(tr);
       });
     });
