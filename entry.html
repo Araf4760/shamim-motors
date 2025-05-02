@@ -159,6 +159,9 @@
             টাকা: <input type="number" name="amount20" style="width: 80px;">
           </div>
         </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>আনুষাঙ্গিক মোট:</label><input type="number" name="accessories" readonly></div>
       </div>            
       <div class="form-row">
         <div class="form-group"><label>মোট মূল্য:</label><input type="number" name="due" readonly></div>
@@ -173,30 +176,35 @@
     </form>
   </div>
 
-      <script>
-        // ক্রয়মূল্য ও আনুষাঙ্গিক খরচের যোগফল হিসাব করে মোট ঘরে বসানো
-        function updateTotalCost() {
-          const basePrice = parseFloat(document.querySelector('input[name="total"]').value) || 0;
-          let extraCosts = 0;
-          for (let i = 1; i <= 20; i++) {
-            const val = parseFloat(document.querySelector(`input[name="amount${i}"]`)?.value) || 0;
-            extraCosts += val;
-          }
-          document.querySelector('input[name="due"]').value = basePrice + extraCosts;
+  <script>
+    function updateTotalCost() {
+      const basePrice = parseFloat(document.querySelector('input[name="total"]').value) || 0;
+      let extraCosts = 0;
+  
+      for (let i = 1; i <= 20; i++) {
+        const val = parseFloat(document.querySelector(`input[name="amount${i}"]`)?.value) || 0;
+        extraCosts += val;
+      }
+  
+      // আনুষাঙ্গিক মোট ঘরে বসানো
+      document.querySelector('input[name="accessories"]').value = extraCosts;
+  
+      // মোট মূল্য হিসাব = ক্রয় মূল্য + আনুষাঙ্গিক খরচ
+      document.querySelector('input[name="due"]').value = basePrice + extraCosts;
+    }
+  
+    window.addEventListener('DOMContentLoaded', () => {
+      const totalInput = document.querySelector('input[name="total"]');
+      totalInput.addEventListener('input', updateTotalCost);
+  
+      for (let i = 1; i <= 20; i++) {
+        const input = document.querySelector(`input[name="amount${i}"]`);
+        if (input) {
+          input.addEventListener('input', updateTotalCost);
         }
-      
-        // সব ইনপুটে ইভেন্ট লিসেনার বসানো
-        window.addEventListener('DOMContentLoaded', () => {
-          const totalInput = document.querySelector('input[name="total"]');
-          totalInput.addEventListener('input', updateTotalCost);
-      
-          for (let i = 1; i <= 20; i++) {
-            const input = document.querySelector(`input[name="amount${i}"]`);
-            if (input) {
-              input.addEventListener('input', updateTotalCost);
-            }
-          }
-        });
-      </script>      
+      }
+    });
+  </script>
+       
 </body>
 </html>
