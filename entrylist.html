@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bike Entry List</title>
+  <style>
+    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin:0; padding:20px; }
+    .container { max-width:1200px; margin:auto; background-color:#29295c; padding:20px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.5); }
+    h2 { text-align:center; color:gold; margin-bottom:20px; }
+    .table-responsive { overflow-x:auto; }
+    table { width:100%; border-collapse: collapse; min-width:1200px; }
+    th, td { padding:8px; border:1px solid #444; text-align:left; font-size:14px; }
+    th { background-color: #22225c; color: gold; }
+    tr:nth-child(even) { background-color: #1f1f3f; }
+    .nowrap { white-space: nowrap; }
+    @media (max-width:600px) {
+      table, th, td { font-size:12px; }
+      th, td { padding:5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Bike Entry List</h2>
+    <div class="table-responsive">
+      <table id="entryTable">
+        <thead>
+          <tr>
+            <th class="nowrap">ক্রমিক নং</th>
+            <th class="nowrap">তারিখ</th>
+            <th>নাম</th>
+            <th>পিতার নাম</th>
+            <th class="nowrap">NID</th>
+            <th class="nowrap">জন্মতারিখ</th>
+            <th>মোবাইল</th>
+            <th>ঠিকানা</th>
+            <th>গাড়ির ধরন</th>
+            <th class="nowrap">নম্বর প্লেট</th>
+            <th class="nowrap">ইঞ্জিন নং</th>
+            <th class="nowrap">চ্যাসিস নং</th>
+            <th>মডেল</th>
+            <th class="nowrap">CC</th>
+            <th>রং</th>
+            <th class="nowrap">ক্রয় মূল্য</th>
+            <!-- আনুষাঙ্গিক খরচের সব খাত -->
+            <th>খাত 01</th><th class="nowrap">টাকা 01</th>
+            <th>খাত 02</th><th class="nowrap">টাকা 02</th>
+            <th>খাত 03</th><th class="nowrap">টাকা 03</th>
+            <th>খাত 04</th><th class="nowrap">টাকা 04</th>
+            <th>খাত 05</th><th class="nowrap">টাকা 05</th>
+            <th>খাত 06</th><th class="nowrap">টাকা 06</th>
+            <th>খাত 07</th><th class="nowrap">টাকা 07</th>
+            <th>খাত 08</th><th class="nowrap">টাকা 08</th>
+            <th>খাত 09</th><th class="nowrap">টাকা 09</th>
+            <th>খাত 10</th><th class="nowrap">টাকা 10</th>
+            <th>খাত 11</th><th class="nowrap">টাকা 11</th>
+            <th>খাত 12</th><th class="nowrap">টাকা 12</th>
+            <th>খাত 13</th><th class="nowrap">টাকা 13</th>
+            <th>খাত 14</th><th class="nowrap">টাকা 14</th>
+            <th>খাত 15</th><th class="nowrap">টাকা 15</th>
+            <th>খাত 16</th><th class="nowrap">টাকা 16</th>
+            <th>খাত 17</th><th class="nowrap">টাকা 17</th>
+            <th>খাত 18</th><th class="nowrap">টাকা 18</th>
+            <th>খাত 19</th><th class="nowrap">টাকা 19</th>
+            <th>খাত 20</th><th class="nowrap">টাকা 20</th>
+            <th class="nowrap">আনুষাঙ্গিক মোট</th>
+            <th class="nowrap">মোট মূল্য</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const entries = JSON.parse(localStorage.getItem('entries') || '[]');
+    const fields = [
+      'serial','date','name','father','nid','dob','mobile','address',
+      'vehicle_type','number_plate','engine','chassis','model','cc','color','total'
+    ];
+    for (let i = 1; i <= 20; i++) {
+      fields.push('item'+i);
+      fields.push('amount'+i);
+    }
+    fields.push('accessories','due');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const tbody = document.querySelector('#entryTable tbody');
+      entries.forEach(entry => {
+        const tr = document.createElement('tr');
+        fields.forEach(f => {
+          const td = document.createElement('td');
+          td.textContent = entry[f] || '';
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+</html>
