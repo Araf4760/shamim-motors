@@ -5,24 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bike Entry List</title>
   <style>
-    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin:0; padding:20px; }
-    .container { max-width:1200px; margin:auto; background-color:#29295c; padding:20px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.5); }
-    h2 { text-align:center; color:gold; margin-bottom:20px; }
-    .table-responsive { overflow-x:auto; }
-    table { width:100%; border-collapse: collapse; min-width:1200px; }
-    th, td { padding:8px; border:1px solid #444; text-align:left; font-size:14px; }
+    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin: 0; padding: 20px; }
+    .container { max-width: 1200px; margin: auto; background-color: #29295c; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+    h2 { text-align: center; color: gold; margin-bottom: 20px; }
+    .buttons { text-align: right; margin-bottom: 10px; }
+    .buttons button { background-color: #22225c; color: gold; font-weight: bold; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }
+    .buttons button:hover { background-color: #444575; }
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+    th, td { padding: 8px; border: 1px solid #444; text-align: left; font-size: 14px; }
     th { background-color: #22225c; color: gold; }
     tr:nth-child(even) { background-color: #1f1f3f; }
     .nowrap { white-space: nowrap; }
     @media (max-width:600px) {
-      table, th, td { font-size:12px; }
-      th, td { padding:5px; }
+      table, th, td { font-size: 12px; }
+      th, td { padding: 5px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Bike Entry List</h2>
+    <div class="buttons">
+      <button id="exportExcel">এক্সেল ডাউনলোড</button>
+    </div>
     <div class="table-responsive">
       <table id="entryTable">
         <thead>
@@ -43,7 +49,6 @@
             <th class="nowrap">CC</th>
             <th>রং</th>
             <th class="nowrap">ক্রয় মূল্য</th>
-            <!-- আনুষাঙ্গিক খরচের সব খাত -->
             <th>খাত 01</th><th class="nowrap">টাকা 01</th>
             <th>খাত 02</th><th class="nowrap">টাকা 02</th>
             <th>খাত 03</th><th class="nowrap">টাকা 03</th>
@@ -95,6 +100,29 @@
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
+      });
+
+      document.getElementById('exportExcel').addEventListener('click', () => {
+        const rows = document.querySelectorAll('#entryTable tr');
+        let csv = [];
+        rows.forEach(row => {
+          const cols = row.querySelectorAll('th, td');
+          let rowData = [];
+          cols.forEach(col => {
+            rowData.push('"' + col.textContent.replace(/"/g, '""') + '"');
+          });
+          csv.push(rowData.join(','));
+        });
+        // prepend BOM for correct UTF-8 in Excel
+        const bom = '\uFEFF';
+        const csvContent = bom + csv.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'bike_entry_list.csv';
+        a.click();
+        URL.revokeObjectURL(url);
       });
     });
   </script>
