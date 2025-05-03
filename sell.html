@@ -90,117 +90,6 @@
   </div>
 
   <script>
-    const URL = 'https://script.google.com/macros/s/AKfycbzrGTdYasgFCS6h5P5-FYteTMm4stfGFP4RtSPp7ge-s5ObDro3Z7fAixHh5AC0zH6a/exec';
-    let entries = [], currentIndex = -1;
-
-    // সব এন্ট্রি নিয়ে আসে
-    async function fetchEntries() {
-      const resp = await fetch(URL);
-      entries = await resp.json();
-    }
-    fetchEntries();
-
-    // ফর্ম ডাটা রিড
-    function getFormData() {
-      const form = document.getElementById('entryForm');
-      const fd = new FormData(form), obj = {};
-      fd.forEach((v, k) => obj[k] = v);
-      return obj;
-    }
-
-    // জমা: POST
-    document.getElementById('entryForm').addEventListener('submit', async e => {
-      e.preventDefault();
-      const data = getFormData();
-      const formData = new FormData();
-      Object.entries(data).forEach(([k, v]) => formData.append(k, v));
-      await fetch(URL, { method: 'POST', body: formData });
-      alert('তথ্য সফলভাবে জমা হয়েছে ✅');
-      e.target.reset();
-      await fetchEntries();
-    });
-
-    // ফর্মে প্রদর্শন
-    function fillForm(obj) {
-      const form = document.getElementById('entryForm');
-      Object.keys(obj).forEach(k => {
-        if (form.elements[k]) form.elements[k].value = obj[k];
-      });
-    }
-
-    // নেভিগেশন
-    function loadPrevious() {
-      if (!entries.length) return alert('কোন তথ্য নাই!');
-      currentIndex = currentIndex <= 0 ? entries.length - 1 : currentIndex - 1;
-      fillForm(entries[currentIndex]);
-    }
-    function loadNext() {
-      if (!entries.length) return alert('কোন তথ্য নাই!');
-      currentIndex = (currentIndex + 1) % entries.length;
-      fillForm(entries[currentIndex]);
-    }
-
-    // ডিলিট
-    async function deleteEntry() {
-      if (currentIndex < 0) return alert('ডিলেটের জন্য লোড করুন!');
-      if (!confirm('আপনি কি নিশ্চিত?')) return;
-      await fetch(`${URL}?action=delete&id=${currentIndex}`);
-      alert('ডিলিট সম্পন্ন ✅');
-      await fetchEntries();
-      currentIndex = -1;
-      document.getElementById('entryForm').reset();
-    }
-
-    // সার্চ
-    function searchEntry() {
-      const q = document.getElementById('searchInput').value.trim().toLowerCase();
-      const idx = entries.findIndex(ent => Object.values(ent).some(v => String(v).toLowerCase().includes(q)));
-      if (idx >= 0) {
-        currentIndex = idx;
-        fillForm(entries[idx]);
-        alert('তথ্য পাওয়া গেছে ✅');
-      } else alert('তথ্য পাওয়া যায়নি ❌');
-    }
-
-    // এক্সপোর্ট
-    function exportData() {
-      const blob = new Blob([JSON.stringify(entries, null, 2)], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'entries.json';
-      link.click();
-    }
-
-    // হিসাব: বাকি টাকা
-    const totalInput = document.querySelector('input[name="total"]');
-    const cashInput  = document.querySelector('input[name="cash"]');
-    const dueInput   = document.querySelector('input[name="due"]');
-    function calculateDue() {
-      const t = parseFloat(totalInput.value) || 0;
-      const c = parseFloat(cashInput.value) || 0;
-      dueInput.value = Math.max(0, t - c);
-    }
-    totalInput.addEventListener('input', calculateDue);
-    cashInput.addEventListener('input', calculateDue);
-
-    // প্রিন্ট / PDF
-    function printEntry() {
-      if (currentIndex < 0) return alert('প্রিন্টের জন্য লোড করুন!');
-      const data = entries[currentIndex];
-      const w = window.open('', '_blank');
-      let html = `<h2 style="text-align:center;">মেসার্স শামীম মটরস</h2><table style="width:100%;border-collapse:collapse;">`;
-      Object.entries(data).forEach(([k, v]) => {
-        html += `<tr><th style="border:1px solid #000;padding:5px;">${k}</th><td style="border:1px solid #000;padding:5px;">${v}</td></tr>`;
-      });
-      html += `</table>`;
-      w.document.write(html);
-      w.document.close();
-      w.focus();
-      w.print();
-    }
-    function downloadPDF() { printEntry(); }
-  </script>
-  <script>
     let currentIndex = 0;
 
     function getFormData() {
@@ -245,23 +134,6 @@
       });
     }
 
-    function loadPrevious() {
-      if (currentIndex > 0) {
-        loadForm(currentIndex - 1);
-      } else {
-        alert("এইটা প্রথম তথ্য!");
-      }
-    }
-
-    function loadNext() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (currentIndex < entries.length - 1) {
-        loadForm(currentIndex + 1);
-      } else {
-        alert("এইটা শেষ তথ্য!");
-      }
-    }
-
     function deleteForm() {
       let entries = JSON.parse(localStorage.getItem("entries") || "[]");
       if (entries.length === 0) {
@@ -278,15 +150,6 @@
         document.getElementById("entryForm").reset();
         alert("সব তথ্য মুছে ফেলা হয়েছে।");
       }
-    }
-
-    function exportData() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      const blob = new Blob([JSON.stringify(entries, null, 2)], {type: "application/json"});
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "entries.json";
-      link.click();
     }
 
     function searchEntry() {
@@ -347,22 +210,6 @@
     totalInput.addEventListener('input', calculateDue);
     cashInput.addEventListener('input', calculateDue);
   </script>
-
-  <script>
-    function downloadPDF() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (entries.length === 0) {
-        alert("PDF করার মতো তথ্য নেই!");
-        return;
-      }
-      const selectedEntry = entries[entries.length - 1];
-      const query = encodeURIComponent(JSON.stringify(selectedEntry));
-      const printWindow = window.open("print-form.html?data=" + query, "_blank");
-      printWindow.onload = function () {
-        printWindow.focus();
-        printWindow.print();
-      };
-    }
-  </script>
+  
 </body>
 </html>
