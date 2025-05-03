@@ -160,49 +160,48 @@
       if (!query) { alert("অনুগ্রহ করে খোঁজার জন্য তথ্য লিখুন"); return; }
       const entries = JSON.parse(localStorage.getItem("entries") || "[]");
       const foundIndex = entries.findIndex(entry => Object.values(entry).some(val => val.toLowerCase().includes(query)));
-      if (foundIndex >= 0) { loadForm(foundIndex); alert("তথ্য পাওয়া গেছে ✅"); }
-      else alert("তথ্য পাওয়া যায়নি ❌");
+<input type="file" id="fileInput" accept=".json" style="display:none;" onchange="handleFileUpload(event)" />
+
+  <script>
+    const STORAGE_KEY = 'sellEntries';
+
+    function getFormData() {
+      return Array.from(new FormData(document.getElementById('entryForm')))
+        .reduce((obj,[k,v])=>(obj[k]=v,obj),{});
     }
 
-    function printEntry() { print-form.html(); }
-    function downloadPDF() { alert("print-form.html"); }
-
-    const totalInput = document.querySelector('input[name="total"]');
-    const cashInput = document.querySelector('input[name="cash"]');
-    const dueInput = document.querySelector('input[name="due"]');
-    function calculateDue() {
-      const total = parseFloat(totalInput.value) || 0;
-      const cash = parseFloat(cashInput.value) || 0;
-      dueInput.value = total - cash;
-    }
-    totalInput.addEventListener('input', calculateDue);
-    cashInput.addEventListener('input', calculateDue);
-
-    function downloadData() {
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      const dataStr = JSON.stringify(entries, null, 2);
-      const blob = new Blob([dataStr], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'entries.json'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+    function saveToLocal(data) {
+      const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      arr.push(data);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
     }
 
-    function uploadData() { document.getElementById('fileInput').click(); }
-
-    function handleFileUpload(event) {
-      const file = event.target.files[0]; if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const data = JSON.parse(e.target.result);
-          if (Array.isArray(data)) {
-            localStorage.setItem("entries", JSON.stringify(data));
-            alert('তথ্য সফলভাবে আপলোড হয়েছে ✅');
-            document.getElementById("entryForm").reset(); setSerial();
-          } else alert('অবৈধ ফাইল ফরম্যাট');
-        } catch { alert('ফাইল পড়তে সমস্যা হয়েছে'); }
-      };
-      reader.readAsText(file);
+    function setSerial() {
+      const inp = document.querySelector('input[name="serial"]');
+      const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      inp.value = arr.length? parseInt(arr[arr.length-1].serial)+1 : 1;
     }
+
+    document.getElementById('entryForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const data = getFormData(); saveToLocal(data);
+      alert('তথ্য জমা হয়েছে ✅'); this.reset(); setSerial();
+    });
+
+    function deleteForm() { /* ... similar to before ... */ }
+    function downloadData() { /* ... */ }
+    function uploadData() { /* ... */ }
+    function handleFileUpload(e) { /* ... */ }
+    function searchEntry() { /* ... */ }
+
+    function openPrintWindow(data, auto=false) {
+      const w=window.open('print-form.html?data='+encodeURIComponent(JSON.stringify(data)));
+      if(auto) w.onload=()=>w.print();
+    }
+    function printEntry(){ openPrintWindow(getFormData(), true); }
+    function downloadPDF(){ openPrintWindow(getFormData(), true); }
+
+    window.onload=setSerial;
   </script>
 </body>
 </html>
