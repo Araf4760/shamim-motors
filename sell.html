@@ -107,19 +107,6 @@
   totalInput.addEventListener('input', calculateDue);
   cashInput.addEventListener('input', calculateDue);
 </script>
-<script>
-    function searchEntry() {
-      const query = document.getElementById("searchInput").value.trim().toLowerCase();
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      const foundIndex = entries.findIndex(entry => Object.values(entry).some(val => val.toLowerCase().includes(query)));
-      if (foundIndex >= 0) {
-        loadForm(foundIndex);
-        alert("তথ্য পাওয়া গেছে ✅");
-      } else {
-        alert("তথ্য পাওয়া যায়নি ❌");
-      }
-    }
-  </script>
 
 </body>
 </html>
