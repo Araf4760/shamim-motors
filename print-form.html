@@ -110,12 +110,14 @@
       <td colspan="3" class="wide-cell" id="father"></td>
     </tr>
     <tr>
-      <th class="gray-bg">মোবাইল নং:</th>
-      <td class="wide-cell" id="mobile"></td>
+      <th class="gray-bg">জাতীয় পরিচয়পত্র:</th>
+      <td class="wide-cell" id="nid"></td>
       <th class="gray-bg">জন্ম তারিখ:</th>
       <td class="wide-cell" id="dob"></td>
-    </tr>
+    </tr>	  
     <tr>
+      <th class="gray-bg">মোবাইল নং:</th>
+      <td class="wide-cell" id="mobile"></td>
       <th class="gray-bg">ঠিকানা:</th>
       <td colspan="3" class="wide-cell" id="address"></td>
     </tr>
@@ -182,8 +184,9 @@
     document.getElementById("date").textContent = entry.date || "";
     document.getElementById("name").textContent = entry.name || "";
     document.getElementById("father").textContent = entry.father || "";
-    document.getElementById("mobile").textContent = entry.mobile || "";
+    document.getElementById("nid").textContent = entry.nid || "";
     document.getElementById("dob").textContent = entry.dob || "";
+    document.getElementById("mobile").textContent = entry.mobile || "";
     document.getElementById("address").textContent = entry.address || "";
 
     document.getElementById("vehicle_type").textContent = entry.vehicle_type || "";
