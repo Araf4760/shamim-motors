@@ -92,8 +92,6 @@
     </form>
   </div>
 
-  <input type="file" id="fileInput" accept=".json" style="display:none;" onchange="handleFileUpload(event)">
-
   <script>
     let currentIndex = 0;
 
@@ -111,97 +109,132 @@
       localStorage.setItem("entries", JSON.stringify(entries));
     }
 
-    function setSerial() {
-      const serialInput = document.querySelector('input[name="serial"]');
-      const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      const nextSerial = entries.length > 0 && !isNaN(entries[entries.length-1].serial)
-        ? parseInt(entries[entries.length-1].serial) + 1
-        : entries.length + 1;
-      serialInput.value = nextSerial;
-    }
-
-    window.addEventListener('load', () => {
-      setSerial();
-    });
-
     document.getElementById("entryForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const data = getFormData();
       saveToLocal(data);
       alert("তথ্য জমা হয়েছে ✅");
       this.reset();
-      setSerial();
     });
 
     function loadForm(index) {
       const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (!entries.length) { alert("কোন তথ্য পাওয়া যায়নি!"); return; }
-      if (index < 0 || index >= entries.length) { alert("আর কোনো তথ্য নেই!"); return; }
+      if (entries.length === 0) {
+        alert("কোন তথ্য পাওয়া যায়নি!");
+        return;
+      }
+      if (index < 0 || index >= entries.length) {
+        alert("আর কোনো তথ্য নেই!");
+        return;
+      }
       currentIndex = index;
       const form = document.getElementById("entryForm");
       const data = entries[index];
-      Object.keys(data).forEach(key => {
-        if (form.elements[key]) form.elements[key].value = data[key];
+      Object.keys(data).forEach((key) => {
+        if (form.elements[key]) {
+          form.elements[key].value = data[key];
+        }
       });
     }
 
     function deleteForm() {
       let entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      if (!entries.length) { alert("মুছতে কিছু নেই!"); return; }
+      if (entries.length === 0) {
+        alert("মুছতে কিছু নেই!");
+        return;
+      }
       if (!confirm("আপনি কি এই তথ্য মুছে ফেলতে চান?")) return;
       entries.splice(currentIndex, 1);
       localStorage.setItem("entries", JSON.stringify(entries));
-      if (entries.length) loadForm(Math.min(currentIndex, entries.length - 1));
-      else { document.getElementById("entryForm").reset(); alert("সব তথ্য মুছে ফেলা হয়েছে।"); setSerial(); }
+      if (entries.length > 0) {
+        currentIndex = Math.min(currentIndex, entries.length - 1);
+        loadForm(currentIndex);
+      } else {
+        document.getElementById("entryForm").reset();
+        alert("সব তথ্য মুছে ফেলা হয়েছে।");
+      }
     }
 
     function searchEntry() {
       const query = document.getElementById("searchInput").value.trim().toLowerCase();
-      if (!query) { alert("অনুগ্রহ করে খোঁজার জন্য তথ্য লিখুন"); return; }
       const entries = JSON.parse(localStorage.getItem("entries") || "[]");
-      const foundIndex = entries.findIndex(entry => Object.values(entry).some(val => val.toLowerCase().includes(query)));
-<input type="file" id="fileInput" accept=".json" style="display:none;" onchange="handleFileUpload(event)" />
-
-  <script>
-    const STORAGE_KEY = 'sellEntries';
-
-    function getFormData() {
-      return Array.from(new FormData(document.getElementById('entryForm')))
-        .reduce((obj,[k,v])=>(obj[k]=v,obj),{});
+      const foundIndex = entries.findIndex(entry => {
+        return Object.values(entry).some(val => val.toLowerCase().includes(query));
+      });
+      if (foundIndex >= 0) {
+        loadForm(foundIndex);
+        alert("তথ্য পাওয়া গেছে ✅");
+      } else {
+        alert("তথ্য পাওয়া যায়নি ❌");
+      }
     }
-
-    function saveToLocal(data) {
-      const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      arr.push(data);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-    }
-
-    function setSerial() {
-      const inp = document.querySelector('input[name="serial"]');
-      const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      inp.value = arr.length? parseInt(arr[arr.length-1].serial)+1 : 1;
-    }
-
-    document.getElementById('entryForm').addEventListener('submit', function(e){
-      e.preventDefault();
-      const data = getFormData(); saveToLocal(data);
-      alert('তথ্য জমা হয়েছে ✅'); this.reset(); setSerial();
-    });
-
-    function deleteForm() { /* ... similar to before ... */ }
-    function downloadData() { /* ... */ }
-    function uploadData() { /* ... */ }
-    function handleFileUpload(e) { /* ... */ }
-    function searchEntry() { /* ... */ }
-
-    function openPrintWindow(data, auto=false) {
-      const w=window.open('print-form.html?data='+encodeURIComponent(JSON.stringify(data)));
-      if(auto) w.onload=()=>w.print();
-    }
-    function printEntry(){ openPrintWindow(getFormData(), true); }
-    function downloadPDF(){ openPrintWindow(getFormData(), true); }
-
-    window.onload=setSerial;
   </script>
+  <script>
+  function print() {
+  const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+  if (entries.length === 0) {
+    alert("প্রিন্ট করার মতো তথ্য পাওয়া যায়নি!");
+    return;
+  }
+  const selectedEntry = entries[currentIndex]; // ✅ এখনকার এন্ট্রি
+  const query = encodeURIComponent(JSON.stringify(selectedEntry));
+  window.open("print-form.html?data=" + query, "_blank");
+}
+</script>
+
+
+<script>
+  function downloadPDF() {
+    const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+    if (entries.length === 0) {
+      alert("PDF করার মতো তথ্য নেই!");
+      return;
+    }
+    const selectedEntry = entries[entries.length - 1];
+    const query = encodeURIComponent(JSON.stringify(selectedEntry));
+    const printWindow = window.open("print-form.html?data=" + query, "_blank");
+
+    printWindow.onload = function () {
+      printWindow.focus();
+      printWindow.print();
+    };
+  }
+</script>
+
+
+<script>
+  const totalInput = document.querySelector('input[name="total"]');
+  const cashInput = document.querySelector('input[name="cash"]');
+  const dueInput = document.querySelector('input[name="due"]');
+
+  function calculateDue() {
+    const total = parseFloat(totalInput.value) || 0;
+    const cash = parseFloat(cashInput.value) || 0;
+    const due = total - cash;
+    dueInput.value = due >= 0 ? due : 0;
+  }
+
+  totalInput.addEventListener('input', calculateDue);
+  cashInput.addEventListener('input', calculateDue);
+</script>
+
+
+<script>
+  function downloadPDF() {
+    const entries = JSON.parse(localStorage.getItem("entries") || "[]");
+    if (entries.length === 0) {
+      alert("PDF করার মতো তথ্য নেই!");
+      return;
+    }
+    const selectedEntry = entries[entries.length - 1];
+    const query = encodeURIComponent(JSON.stringify(selectedEntry));
+    const printWindow = window.open("print-form.html?data=" + query, "_blank");
+
+    printWindow.onload = function () {
+      printWindow.focus();
+      printWindow.print();
+    };
+  }
+</script>
 </body>
 </html>
