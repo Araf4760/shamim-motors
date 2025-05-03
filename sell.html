@@ -108,5 +108,127 @@
   cashInput.addEventListener('input', calculateDue);
 </script>
 
+<!-- sell.html এর শেষে যোগ করুন -->
+<script>
+  // LocalStorage-এ এন্ট্রিগুলো সংরক্ষণ করার জন্য
+  let entries = JSON.parse(localStorage.getItem('sellEntries') || '[]');
+
+  // DOM এলিমেন্টস
+  const serialInput = document.querySelector('input[name="serial"]');
+  const form = document.getElementById('entryForm');
+  const entriesTableContainer = document.createElement('div');
+  entriesTableContainer.id = 'entriesTable';
+  document.querySelector('.container').appendChild(entriesTableContainer);
+
+  // ১) ক্রমিক স্বয়ংক্রিয় সেট করা
+  function updateSerial() {
+    serialInput.value = entries.length + 1;
+  }
+
+  // ২) এন্ট্রি লিস্ট টেবিল-এ রেন্ডার করা
+  function renderEntries() {
+    let html = `
+      <table border="1" width="100%" style="margin-top:20px;background:#fff;color:#000;">
+        <thead>
+          <tr>
+            <th>ক্রমিক নং</th><th>তারিখ</th><th>নাম</th><th>পিতা</th>
+            <th>NID</th><th>জন্ম</th><th>মোবাইল</th><th>ঠিকানা</th>
+            <th>গাড়ি</th><th>...</th>
+          </tr>
+        </thead><tbody>
+    `;
+    entries.forEach(e => {
+      html += `
+        <tr>
+          <td>${e.serial}</td><td>${e.date}</td><td>${e.name}</td>
+          <td>${e.father}</td><td>${e.nid}</td><td>${e.dob}</td>
+          <td>${e.mobile}</td><td>${e.address}</td>
+          <td>${e.vehicle_type}/${e.number_plate}</td><td>…</td>
+        </tr>
+      `;
+    });
+    html += `</tbody></table>`;
+    entriesTableContainer.innerHTML = html;
+  }
+
+  // ৩) জমা (Submit) — ফর্ম থেকে ডাটা নিয়ে LocalStorage-এ সেভ
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.serial = entries.length + 1;
+    entries.push(data);
+    localStorage.setItem('sellEntries', JSON.stringify(entries));
+    updateSerial();
+    renderEntries();
+    form.reset();
+  });
+
+  // ৪) সার্চ
+  function searchEntry() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const rows = entriesTableContainer.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const match = [...row.cells].some(td => td.textContent.toLowerCase().includes(q));
+      row.style.display = match ? '' : 'none';
+    });
+  }
+
+  // ৫) ডিলিট — সর্বশেষ এন্ট্রি রিমুভ
+  function deleteForm() {
+    if (!entries.length) return alert('কোনো এন্ট্রি নেই।');
+    entries.pop();
+    localStorage.setItem('sellEntries', JSON.stringify(entries));
+    updateSerial();
+    renderEntries();
+  }
+
+  // ৬) PDF & প্রিন্ট
+  function downloadPDF() {
+    // print-form.html খুলবে নতুন ট্যাব/উইন্ডোতে
+    window.open('print-form.html', '_blank');
+  }
+  function printEntry() {
+    downloadPDF();
+  }
+
+  // ৭) তথ্য ডাউনলোড — শুধুমাত্র sell.html-এ জমাকৃত ডাটা
+  function downloadData() {
+    const blob = new Blob([JSON.stringify(entries, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'sell-data.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ৮) তথ্য আপলোড — JSON ফাইল থেকে পুনরায় লোড
+  function uploadData() {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = '.json';
+    inp.onchange = e => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          entries = JSON.parse(reader.result);
+          localStorage.setItem('sellEntries', JSON.stringify(entries));
+          updateSerial();
+          renderEntries();
+        } catch {
+          alert('ভুল ফরম্যাটের ফাইল।');
+        }
+      };
+      reader.readAsText(file);
+    };
+    inp.click();
+  }
+
+  // পেজ লোডে ইনিশিয়াল সেটআপ
+  updateSerial();
+  renderEntries();
+</script>
+
 </body>
 </html>
