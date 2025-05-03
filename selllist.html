@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bike Sell List</title>
+  <style>
+    body { background-color: #1c1c44; font-family: 'Siyam Rupali', sans-serif; color: white; margin: 0; padding: 20px; }
+    .container { max-width: 1200px; margin: auto; background-color: #29295c; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+    h2 { text-align: center; color: gold; margin-bottom: 20px; }
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    th, td { padding: 8px; border: 1px solid #444; text-align: left; font-size: 14px; }
+    th { background-color: #22225c; color: gold; }
+    tr:nth-child(even) { background-color: #1f1f3f; }
+    .nowrap { white-space: nowrap; }
+    .delete-btn { background: transparent; border: none; cursor: pointer; color: #ff4d4d; font-size: 16px; }
+    .delete-btn:hover { color: #ff1a1a; }
+    @media (max-width: 600px) {
+      table, th, td { font-size: 12px; padding: 5px; }
+      .table-responsive { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Bike Sell List</h2>
+    <div class="table-responsive">
+      <table id="sellTable">
+        <thead>
+          <tr>
+            <th>ক্রমিক নং</th>
+            <th>তারিখ</th>
+            <th>নাম</th>
+            <th>পিতা/স্বামীর নাম</th>
+            <th>NID</th>
+            <th>জন্মতারিখ</th>
+            <th>মোবাইল</th>
+            <th>ঠিকানা</th>
+            <th>গাড়ির ধরন</th>
+            <th>নাম্বার প্লেট</th>
+            <th>ইঞ্জিন নং</th>
+            <th>চ্যাসিস নং</th>
+            <th>মডেল</th>
+            <th>CC</th>
+            <th>রং</th>
+            <th>মোট টাকা</th>
+            <th>নগদ টাকা</th>
+            <th>বাকি টাকা</th>
+            <th>মুছুন</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Fetch sell entries from localStorage
+    let sells = JSON.parse(localStorage.getItem('sellEntries') || '[]');
+    const fields = [
+      'serial','date','name','father','nid','dob','mobile','address',
+      'vehicle_type','number_plate','engine','chassis','model','cc','color',
+      'total','cash','due'
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const tbody = document.querySelector('#sellTable tbody');
+      sells.forEach((entry, idx) => {
+        const tr = document.createElement('tr');
+        fields.forEach(f => {
+          const td = document.createElement('td');
+          td.textContent = entry[f] || '';
+          td.classList.toggle('nowrap', ['serial','date','nid','dob','cc','total','cash','due'].includes(f));
+          tr.appendChild(td);
+        });
+        const delTd = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.className = 'delete-btn';
+        btn.textContent = '🗑️';
+        btn.title = 'মুছুন';
+        btn.addEventListener('click', () => {
+          sells.splice(idx, 1);
+          localStorage.setItem('sellEntries', JSON.stringify(sells));
+          tr.remove();
+        });
+        delTd.appendChild(btn);
+        tr.appendChild(delTd);
+        tbody.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+</html>
