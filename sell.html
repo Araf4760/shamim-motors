@@ -131,9 +131,9 @@
       <table border="1" width="100%" style="margin-top:20px;background:#fff;color:#000;">
         <thead>
           <tr>
-            <th>ক্রমিক নং</th><th>তারিখ</th><th>নাম</th><th>পিতা</th>
-            <th>NID</th><th>জন্ম</th><th>মোবাইল</th><th>ঠিকানা</th>
-            <th>গাড়ি</th><th>...</th>
+            <th>ক্রমিক নং</th><th>তারিখ</th><th>নাম</th><th>গাড়ির ধরন</th>
+            <th>নাম্বার প্লেট</th><th>ইঞ্জিন নং</th><th>চ্যাসিস নং</th><th>মোট টাকা</th>
+            <th>নগদ টাকা</th><th>বাকি টাকা</th>
           </tr>
         </thead><tbody>
     `;
@@ -141,9 +141,9 @@
       html += `
         <tr>
           <td>${e.serial}</td><td>${e.date}</td><td>${e.name}</td>
-          <td>${e.father}</td><td>${e.nid}</td><td>${e.dob}</td>
-          <td>${e.mobile}</td><td>${e.address}</td>
-          <td>${e.vehicle_type}/${e.number_plate}</td><td>…</td>
+          <td>${e.vehicle_type}</td><td>${e.number_plate}</td>
+          <td>${e.engine}</td><td>${e.chassis}</td>
+          <td>${e.total}/${e.cash}</td><td>${e.due}</td>
         </tr>
       `;
     });
