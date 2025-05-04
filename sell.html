@@ -230,5 +230,26 @@
   renderEntries();
 </script>
 
+<script>
+  // ... আগের কোড অপরিবর্তিত …
+
+  // ৬) PDF & প্রিন্ট (শেষ এন্ট্রি URL query দিয়ে পাঠাবে)
+  function downloadPDF() {
+    if (!entries.length) {
+      return alert('প্রিন্ট করার জন্য কোন এন্ট্রি নেই।');
+    }
+    const lastEntry = entries[entries.length - 1];
+    const dataStr = encodeURIComponent(JSON.stringify(lastEntry));
+    const url = 'print-form.html?data=' + dataStr;
+    window.open(url, '_blank');
+  }
+
+  function printEntry() {
+    downloadPDF();
+  }
+
+  // ... বাকী কোড অপরিবর্তিত …
+</script>
+  
 </body>
 </html>
