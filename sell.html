@@ -202,29 +202,6 @@
     URL.revokeObjectURL(url);
   }
 
-  // ৮) তথ্য আপলোড — JSON ফাইল থেকে পুনরায় লোড
-  function uploadData() {
-    const inp = document.createElement('input');
-    inp.type = 'file';
-    inp.accept = '.json';
-    inp.onchange = e => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          entries = JSON.parse(reader.result);
-          localStorage.setItem('sellEntries', JSON.stringify(entries));
-          updateSerial();
-          renderEntries();
-        } catch {
-          alert('ভুল ফরম্যাটের ফাইল।');
-        }
-      };
-      reader.readAsText(file);
-    };
-    inp.click();
-  }
-
   // পেজ লোডে ইনিশিয়াল সেটআপ
   updateSerial();
   renderEntries();
@@ -280,6 +257,57 @@
     }
   }
 </script>
+
+<script>
+  // নতুন uploadData(): কেবল sell.html-এর প্রকৃত এন্ট্রিগুলোই লোড করবে
+  function uploadData() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.json';
+    fileInput.onchange = e => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const loaded = JSON.parse(reader.result);
+          // নিশ্চিত করুন যে এটি অ্যারে এবং প্রতিটি অবজেক্টে প্রয়োজনীয় ফিল্ড আছে
+          if (!Array.isArray(loaded)) throw new Error();
+          const validEntries = loaded.filter(item =>
+            item &&
+            typeof item === 'object' &&
+            'serial'        in item &&
+            'date'          in item &&
+            'name'          in item &&
+            'father'        in item &&
+            'nid'           in item &&
+            'dob'           in item &&
+            'mobile'        in item &&
+            'address'       in item &&
+            'vehicle_type'  in item &&
+            'number_plate'  in item &&
+            'engine'        in item &&
+            'chassis'       in item &&
+            'model'         in item &&
+            'cc'            in item &&
+            'color'         in item &&
+            'total'         in item &&
+            'cash'          in item &&
+            'due'           in item
+          );
+          if (!validEntries.length) throw new Error();
+          entries = validEntries;
+          localStorage.setItem('sellEntries', JSON.stringify(entries));
+          updateSerial();
+          renderEntries();
+        } catch {
+          alert('ভুল ফরম্যাটের ফাইল: শুধুমাত্র sell.html ফর্মের JSON ফাইল দিন।');
+        }
+      };
+      reader.readAsText(file);
+    };
+    fileInput.click();
+  }
+</script>  
   
 </body>
 </html>
