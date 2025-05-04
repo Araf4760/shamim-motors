@@ -231,15 +231,22 @@
 </script>
 
 <script>
-  // ... আগের কোড অপরিবর্তিত …
-
-  // ৬) PDF & প্রিন্ট (শেষ এন্ট্রি URL query দিয়ে পাঠাবে)
+  // ৬) PDF & প্রিন্ট (সার্চে পাওয়া তথ্য প্রিন্টে যাবে)
   function downloadPDF() {
-    if (!entries.length) {
-      return alert('প্রিন্ট করার জন্য কোন এন্ট্রি নেই।');
+    // ফর্মের সব ইনপুট থেকে তথ্য নিয়ে অবজেক্ট বানানো
+    const formData = new FormData(document.getElementById('entryForm'));
+    const entry = {};
+    for (const [key, value] of formData.entries()) {
+      entry[key] = value;
     }
-    const lastEntry = entries[entries.length - 1];
-    const dataStr = encodeURIComponent(JSON.stringify(lastEntry));
+
+    // সব ফিল্ড খালি হলে বোঝা যাবে কিছুই খোঁজা হয়নি
+    const allEmpty = Object.values(entry).every(v => !v.trim());
+    if (allEmpty) {
+      return alert('প্রিন্ট করার জন্য কোনো তথ্য পাওয়া যায়নি। অনুগ্রহ করে সার্চ করুন।');
+    }
+
+    const dataStr = encodeURIComponent(JSON.stringify(entry));
     const url = 'print-form.html?data=' + dataStr;
     window.open(url, '_blank');
   }
@@ -247,8 +254,31 @@
   function printEntry() {
     downloadPDF();
   }
+</script>
 
-  // ... বাকী কোড অপরিবর্তিত …
+
+<script>
+  // ৪) সার্চ — ফর্মে মিলানো এন্ট্রির সম্পূর্ণ তথ্য লোড করবে
+  function searchEntry() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    // entries অ্যারে থেকে প্রথম মেলা এন্ট্রি খুঁজে নিন
+    const entry = entries.find(e =>
+      Object.values(e).some(val =>
+        val.toString().toLowerCase().includes(q)
+      )
+    );
+    if (entry) {
+      // প্রতিটি ফর্ম ইনপুটে মান বসিয়ে দিন
+      Object.entries(entry).forEach(([key, value]) => {
+        const field = form.querySelector(`[name="${key}"]`);
+        if (field) field.value = value;
+      });
+      // বাকি টাকা আপডেট করার জন্য
+      if (typeof calculateDue === 'function') calculateDue();
+    } else {
+      alert('কোনো মেলা এন্ট্রি পাওয়া যায়নি।');
+    }
+  }
 </script>
   
 </body>
