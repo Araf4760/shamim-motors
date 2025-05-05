@@ -153,6 +153,11 @@
   </div>
 
   <script>
+    // ১) ক্রমিক স্বয়ংক্রিয় সেট করা
+  function updateSerial() {
+    serialInput.value = entries.length + 1;
+  }
+    
     function updateTotalCost() {
       const basePrice = parseFloat(document.querySelector('input[name="total"]').value) || 0;
       let extraCosts = 0;
