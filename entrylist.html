@@ -17,6 +17,9 @@
     th { background-color: #22225c; color: gold; }
     tr:nth-child(even) { background-color: #1f1f3f; }
     .nowrap { white-space: nowrap; }
+    /* Sold Now button style inside table */
+    .sold-now-btn { background-color: #22225c; color: gold; font-weight: bold; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; }
+    .sold-now-btn:hover { background-color: #444575; }
     @media (max-width:600px) {
       table, th, td { font-size: 12px; }
       th, td { padding: 5px; }
@@ -71,6 +74,7 @@
             <th>খাত 20</th><th class="nowrap">টাকা 20</th>
             <th class="nowrap">আনুষাঙ্গিক মোট</th>
             <th class="nowrap">মোট মূল্য</th>
+            <th>Sold Now</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -92,13 +96,27 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       const tbody = document.querySelector('#entryTable tbody');
-      entries.forEach(entry => {
+      entries.forEach((entry, index) => {
         const tr = document.createElement('tr');
         fields.forEach(f => {
           const td = document.createElement('td');
           td.textContent = entry[f] || '';
           tr.appendChild(td);
         });
+        const soldTd = document.createElement('td');
+        const soldBtn = document.createElement('button');
+        soldBtn.textContent = 'Sold Now';
+        soldBtn.classList.add('sold-now-btn');
+        soldBtn.addEventListener('click', () => {
+          const soldEntries = JSON.parse(localStorage.getItem('soldEntries') || '[]');
+          soldEntries.push(entry);
+          localStorage.setItem('soldEntries', JSON.stringify(soldEntries));
+          entries.splice(index, 1);
+          localStorage.setItem('entries', JSON.stringify(entries));
+          tr.remove();
+        });
+        soldTd.appendChild(soldBtn);
+        tr.appendChild(soldTd);
         tbody.appendChild(tr);
       });
 
@@ -113,7 +131,6 @@
           });
           csv.push(rowData.join(','));
         });
-        // prepend BOM for correct UTF-8 in Excel
         const bom = '\uFEFF';
         const csvContent = bom + csv.join('\n');
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
