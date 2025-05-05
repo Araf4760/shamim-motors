@@ -153,11 +153,6 @@
   </div>
 
   <script>
-    // ১) ক্রমিক স্বয়ংক্রিয় সেট করা
-  function updateSerial() {
-    serialInput.value = entries.length + 1;
-  }
-    
     function updateTotalCost() {
       const basePrice = parseFloat(document.querySelector('input[name="total"]').value) || 0;
       let extraCosts = 0;
@@ -285,5 +280,38 @@
     reader.readAsText(file);
   }
 </script>
+
+<script>
+  // ১) entries ভ্যারিয়েবল — লোকালস্টোরেজ থেকে লোড
+  let entries = JSON.parse(localStorage.getItem('entries') || '[]');
+
+  // ২) updateSerial(): serial ইনপুটে সঠিক ক্রমিক নম্বর বসাবে
+  function updateSerial() {
+    const serialInput = document.querySelector('input[name="serial"]');
+    if (!serialInput) return;
+    serialInput.value = entries.length + 1;
+  }
+
+  // ৩) ফর্ম জমা হলে নতুন এন্ট্রি সেভ করার পর সিরিয়াল আপডেট
+  function saveEntry(e) {
+    e.preventDefault();
+    const form = document.getElementById('entryForm');
+    const data = {};
+    new FormData(form).forEach((v, k) => data[k] = v);
+    entries.push(data);
+    localStorage.setItem('entries', JSON.stringify(entries));
+    updateSerial();            // নতুন সিরিয়াল সেট
+    form.reset();
+    alert('তথ্য সফলভাবে সংরক্ষণ হয়েছে ✅');
+  }
+
+  // ৪) পেজ লোড–এ প্রথমে সিরিয়াল আপডেট এবং সাবমিট লিসেনার
+  window.addEventListener('DOMContentLoaded', () => {
+    updateSerial();
+    const form = document.getElementById('entryForm');
+    form.addEventListener('submit', saveEntry);
+  });
+</script>
+
 </body>
 </html>
