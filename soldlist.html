@@ -90,6 +90,7 @@
             <th>খাত 20</th><th class="nowrap">টাকা 20</th>
             <th class="nowrap">আনুষাঙ্গিক মোট</th>
             <th class="nowrap">মোট মূল্য</th>
+            <th class="nowrap">অপসারণ</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -112,15 +113,31 @@
       const soldEntries = JSON.parse(localStorage.getItem('soldEntries') || '[]');
       const tbody = document.querySelector('#soldTable tbody');
       tbody.innerHTML = '';
-      soldEntries.forEach(entry => {
+      soldEntries.forEach((entry, index) => {
         const tr = document.createElement('tr');
         fields.forEach(f => {
           const td = document.createElement('td');
           td.textContent = entry[f] || '';
           tr.appendChild(td);
         });
+        // delete button cell
+        const tdDel = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.innerHTML = '🗑️';
+        btn.className = 'delete-btn';
+        btn.title = 'মুছে ফেলুন';
+        btn.addEventListener('click', () => deleteEntry(index));
+        tdDel.appendChild(btn);
+        tr.appendChild(tdDel);
         tbody.appendChild(tr);
       });
+    }
+
+    function deleteEntry(idx) {
+      let soldEntries = JSON.parse(localStorage.getItem('soldEntries') || '[]');
+      soldEntries.splice(idx, 1);
+      localStorage.setItem('soldEntries', JSON.stringify(soldEntries));
+      renderTable();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -161,7 +178,7 @@
           const newEntries = [];
           for (let i = 1; i < lines.length; i++) {
             if (!lines[i].trim()) continue;
-            const values = lines[i].split(/,(?=(?:[^"]*"[^\"]*")*[^\"]*$)/).map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
+            const values = lines[i].split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
             const entry = {};
             fields.forEach((f, idx) => entry[f] = values[idx] || '');
             newEntries.push(entry);
