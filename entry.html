@@ -29,21 +29,8 @@
 </head>
 <body>
   <div style="text-align: right; margin: 10px;">
-  <button 
-    type="button" 
-    onclick="window.location.href='Dashboard.html';"
-    style="
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 6px 14px;
-      font-size: 14px;
-      border-radius: 4px;
-      cursor: pointer;
-    ">
-    Home
-  </button>
-</div>
+    <button type="button" onclick="window.location.href='Dashboard.html';" style="background-color: #007bff; color: white; border: none; padding: 6px 14px; font-size: 14px; border-radius: 4px; cursor: pointer;">Home</button>
+  </div>
   <div class="container">
     <div class="header-row">
       <div class="logo-box">লোগো</div>
@@ -57,6 +44,7 @@
 
     <div class="form">
       <form id="entryForm">
+        <input type="hidden" name="index" value=""> <!-- এন্ট্রির ইনডেক্স -->
         <div class="form-row">
           <div class="form-group"><label>ক্রমিক নং:</label><input type="text" name="serial" readonly></div>
           <div class="form-group"><label>তারিখ:</label><input type="date" name="date"></div>
@@ -139,41 +127,31 @@
         </div>
         <div class="buttons">
           <button type="submit">জমা</button>
+          <button type="button" id="updateBtn">Update</button>
         </div>
-        <div class="buttons" style="margin-top: 30px;">
-  <button onclick="downloadEntries()" style="background-color:#2e8b57;">📥 তথ্য ডাউনলোড</button>
-  
-  <label for="uploadFile" style="background-color:#8b2e2e; padding:10px 20px; border-radius:8px; cursor:pointer; color:gold;">
-    📤 তথ্য আপলোড
-    <input type="file" id="uploadFile" accept=".json" style="display: none;" onchange="uploadEntries()">
-  </label>
-</div>
+        <div class="buttons" style="margin-top: 20px;">
+          <button onclick="downloadEntries()" type="button" style="background-color:#2e8b57;">📥 তথ্য ডাউনলোড</button>
+          <label for="uploadFile" style="background-color:#8b2e2e; padding:10px 20px; border-radius:8px; cursor:pointer; color:gold;">
+            📤 তথ্য আপলোড
+            <input type="file" id="uploadFile" accept=".json" style="display: none;" onchange="uploadEntries(event)">
+          </label>
+        </div>
       </form>
     </div>
   </div>
 
   <script>
-    function updateTotalCost() {
-      const basePrice = parseFloat(document.querySelector('input[name="total"]').value) || 0;
-      let extraCosts = 0;
-      for (let i = 1; i <= 20; i++) {
-        const val = parseFloat(document.querySelector(`input[name="amount${i}"]`)?.value) || 0;
-        extraCosts += val;
-      }
-      document.querySelector('input[name="accessories"]').value = extraCosts;
-      document.querySelector('input[name="due"]').value = basePrice + extraCosts;
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('input[name="total"]').addEventListener('input', updateTotalCost);
-      for (let i = 1; i <= 20; i++) {
-        const input = document.querySelector(`input[name="amount${i}"]`);
-        if (input) input.addEventListener('input', updateTotalCost);
-      }
-    });
-  </script>
-  <script>
+    // ১) লোকালস্টোরেজ থেকে এন্ট্রিগুলো লোড
     let entries = JSON.parse(localStorage.getItem('entries') || '[]');
   
+    // ২) serial ইনপুটে পরবর্তী ক্রমিক নম্বর সেট
+    function updateSerial() {
+      const serialInput = document.querySelector('input[name="serial"]');
+      if (!serialInput) return;
+      serialInput.value = entries.length + 1;
+    }
+  
+    // ৩) ফর্ম ডেটা সংগ্রহের হেল্পার
     function getFormData() {
       const form = document.getElementById('entryForm');
       const data = {};
@@ -181,43 +159,37 @@
       return data;
     }
   
+    // ৪) নতুন এন্ট্রি সেভ করা
     function saveEntry(e) {
       e.preventDefault();
       const data = getFormData();
       entries.push(data);
       localStorage.setItem('entries', JSON.stringify(entries));
-      console.log('Saved entry:', data);
-      alert('তথ্য সফলভাবে সংরক্ষণ করা হয়েছে ✅');
+      updateSerial();            // নতুন সিরিয়াল সেট করবে :contentReference[oaicite:0]{index=0}:contentReference[oaicite:1]{index=1}
       e.target.reset();
+      alert('তথ্য সফলভাবে সংরক্ষণ হয়েছে ✅');
     }
   
+    // ৫) সার্চ করে ফর্মে আগের তথ্য ফিরিয়ে আনা
     function searchEntry() {
-      console.log('All entries:', entries);
       const q = document.getElementById('searchInput').value.trim().toLowerCase();
       if (!q) { alert('অনুগ্রহ করে সার্চ করার জন্য কিছু লিখুন।'); return; }
-  
-      const match = entries.find(entry =>
-        Object.values(entry).some(val =>
-          String(val).toLowerCase().includes(q)
-        )
+      const idx = entries.findIndex(entry =>
+        Object.values(entry).some(val => String(val).toLowerCase().includes(q))
       );
-  
-      if (!match) {
-        alert('কোনো মিল পাওয়া যায়নি।');
-        return;
-      }
-  
-      console.log('Found entry:', match);
+      if (idx === -1) { alert('কোনো মিল পাওয়া যায়নি।'); return; }
+      const match = entries[idx];
       const form = document.getElementById('entryForm');
       Object.entries(match).forEach(([key, value]) => {
         const el = form.querySelector(`[name="${key}"]`);
         if (el) el.value = value;
       });
-  
+      form.querySelector('input[name="index"]').value = idx;  // ইনডেক্স হিড­den ইনপুটে সেট :contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3}
       updateTotalCost();
       alert('সংরক্ষিত তথ্য ফিরিয়ে আনা হয়েছে ✅');
     }
   
+    // ৬) খরচ হিসাব আপডেট
     function updateTotalCost() {
       const basePrice = parseFloat(document.querySelector('input[name="total"]').value) || 0;
       let extra = 0;
@@ -226,92 +198,70 @@
       }
       document.querySelector('input[name="accessories"]').value = extra;
       document.querySelector('input[name="due"]').value = basePrice + extra;
+    }  // :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5}
+  
+    // ৭) সার্চের পর “Update” বাটন ক্লিক করলে এন্ট্রি আপডেট
+    function updateEntry() {
+      const form = document.getElementById('entryForm');
+      const idx = parseInt(form.querySelector('input[name="index"]').value);
+      if (isNaN(idx)) { alert('দয়া করে প্রথমে কোনো এন্ট্রি সার্চ করুন।'); return; }
+      entries[idx] = getFormData();
+      localStorage.setItem('entries', JSON.stringify(entries));
+      alert('এন্ট্রি সফলভাবে আপডেট হয়েছে ✅');
+      form.reset();
+      updateSerial();
     }
   
+    // ৮) JSON ফাইলে ডাউনলোড
+    function downloadEntries() {
+      const blob = new Blob([JSON.stringify(entries, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'entries_backup.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }  // :contentReference[oaicite:6]{index=6}:contentReference[oaicite:7]{index=7}
+  
+    // ৯) JSON ফাইল থেকে আপলোড
+    function uploadEntries(event) {
+      const file = event.target.files[0];
+      if (!file) return alert('দয়া করে একটি JSON ফাইল নির্বাচন করুন।');
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (Array.isArray(data)) {
+            entries = data;
+            localStorage.setItem('entries', JSON.stringify(entries));
+            alert('তথ্য সফলভাবে আপলোড হয়েছে ✅');
+            updateSerial();
+          } else {
+            alert('সঠিক ফরম্যাটের JSON দিন।');
+          }
+        } catch (err) {
+          alert('JSON পার্সিং এ ত্রুটি: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+  
+    // ১০) ইভেন্ট লিসেনার সেটআপ
     window.addEventListener('DOMContentLoaded', () => {
+      updateSerial();
       document.getElementById('entryForm').addEventListener('submit', saveEntry);
       document.querySelector('.search-label').addEventListener('click', searchEntry);
+      document.getElementById('updateBtn').addEventListener('click', updateEntry);
       document.querySelector('input[name="total"]').addEventListener('input', updateTotalCost);
       for (let i = 1; i <= 20; i++) {
-        const amt = document.querySelector(`input[name="amount${i}"]`);
-        if (amt) amt.addEventListener('input', updateTotalCost);
+        const input = document.querySelector(`input[name="amount${i}"]`);
+        if (input) input.addEventListener('input', updateTotalCost);
       }
+      document.getElementById('uploadFile').addEventListener('change', uploadEntries);
     });
   </script>
-  <script>
-  function downloadEntries() {
-    const entries = JSON.parse(localStorage.getItem('entries') || '[]');
-    const blob = new Blob([JSON.stringify(entries, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'entries_backup.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-</script>
-  <script>
-  function uploadEntries() {
-    const fileInput = document.getElementById('uploadFile');
-    if (!fileInput.files.length) {
-      alert('দয়া করে একটি JSON ফাইল নির্বাচন করুন।');
-      return;
-    }
-
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-      try {
-        const data = JSON.parse(e.target.result);
-        if (Array.isArray(data)) {
-          localStorage.setItem('entries', JSON.stringify(data));
-          alert('তথ্য সফলভাবে আপলোড করা হয়েছে ✅');
-        } else {
-          alert('ফাইলটি সঠিক ফর্ম্যাটে নেই!');
-        }
-      } catch (err) {
-        alert('ডেটা পড়তে সমস্যা হয়েছে।');
-      }
-    };
-
-    reader.readAsText(file);
-  }
-</script>
-
-<script>
-  // ১) entries ভ্যারিয়েবল — লোকালস্টোরেজ থেকে লোড
-  let entries = JSON.parse(localStorage.getItem('entries') || '[]');
-
-  // ২) updateSerial(): serial ইনপুটে সঠিক ক্রমিক নম্বর বসাবে
-  function updateSerial() {
-    const serialInput = document.querySelector('input[name="serial"]');
-    if (!serialInput) return;
-    serialInput.value = entries.length + 1;
-  }
-
-  // ৩) ফর্ম জমা হলে নতুন এন্ট্রি সেভ করার পর সিরিয়াল আপডেট
-  function saveEntry(e) {
-    e.preventDefault();
-    const form = document.getElementById('entryForm');
-    const data = {};
-    new FormData(form).forEach((v, k) => data[k] = v);
-    entries.push(data);
-    localStorage.setItem('entries', JSON.stringify(entries));
-    updateSerial();            // নতুন সিরিয়াল সেট
-    form.reset();
-    alert('তথ্য সফলভাবে সংরক্ষণ হয়েছে ✅');
-  }
-
-  // ৪) পেজ লোড–এ প্রথমে সিরিয়াল আপডেট এবং সাবমিট লিসেনার
-  window.addEventListener('DOMContentLoaded', () => {
-    updateSerial();
-    const form = document.getElementById('entryForm');
-    form.addEventListener('submit', saveEntry);
-  });
-</script>
-
+  
 </body>
 </html>
